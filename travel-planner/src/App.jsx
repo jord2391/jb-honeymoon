@@ -10,7 +10,7 @@ const NAV_ICONS = {
 };
 
 const sampleData = {
-  tripName: "Japan Adventure",
+  tripName: "Jordan's Adventure",
   dates: "Oct 12–25, 2025",
   itinerary: [
     { day: 1, date: "Oct 12", location: "Tokyo", events: ["Arrive at Narita Airport", "Check in at Shinjuku hotel", "Explore Shinjuku at night"] },
