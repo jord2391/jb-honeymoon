@@ -92,13 +92,13 @@ function ItineraryTab({ data }) {
 function TravelTab({ data }) {
   return (
     <div>
-      <h2 style={{ fontSize: 13, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: "1.5rem" }}>Flights & trains</h2>
+      <h2 style={{ fontSize: 13, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: "1.5rem" }}>Flights & rental car</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {data.map((t, i) => (
           <div key={i} style={{ background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
               <span style={{ fontSize: 18 }}>{t.type === "flight" ? "✈️" : "🚅"}</span>
-              <span style={{ fontSize: 12, fontWeight: 500, background: t.type === "flight" ? "var(--color-background-info)" : "var(--color-background-success)", color: t.type === "flight" ? "var(--color-text-info)" : "var(--color-text-success)", padding: "2px 8px", borderRadius: "var(--border-radius-md)" }}>{t.type === "flight" ? "Flight" : "Train"}</span>
+              <span style={{ fontSize: 12, fontWeight: 500, background: t.type === "flight" ? "var(--color-background-info)" : "var(--color-background-success)", color: t.type === "flight" ? "var(--color-text-info)" : "var(--color-text-success)", padding: "2px 8px", borderRadius: "var(--border-radius-md)" }}>{t.type === "flight" ? "Flight" : "Rental car"}</span>
               <span style={{ fontSize: 13, color: "var(--color-text-secondary)", marginLeft: "auto" }}>{t.date}</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
