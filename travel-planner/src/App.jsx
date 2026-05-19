@@ -13,16 +13,16 @@ const sampleData = {
   tripName: "Joji & Momi's Maine Adventure",
   dates: "July 22 - 26, 2026",
   itinerary: [
-    { day: 1, date: "July 22", location: "Portland", events: ["Arrive at Portland Airport", "Pick up rental car", "Check in at Portland Harbor Hotel", "Dinner at XX", "Explore Portland at night"] },
+    { day: 1, date: "July 22", location: "Portland", events: ["Arrive at Portland Airport", "Check in at Portland Harbor Hotel", "Dinner at XX", "Explore Portland at night"] },
     { day: 2, date: "July 23", location: "Portland", events: ["Senso-ji Temple, Asakusa", "Tsukiji Outer Market lunch", "TeamLab Planets evening"] },
     { day: 3, date: "July 24", location: "Portland/Ogunquit", events: ["Shibuya Crossing & shopping", "Harajuku & Meiji Shrine", "Dinner in Ginza"] },
     { day: 4, date: "July 25", location: "Ogunquit/Wells/Kennebunkport", events: ["Bullet train Tokyo → Kyoto", "Fushimi Inari Shrine", "Gion district stroll"] },
     { day: 5, date: "July 26", location: "Ogunquit/Kennebunkport/Portland", events: ["Arashiyama Bamboo Grove", "Kinkaku-ji Golden Pavilion", "Traditional kaiseki dinner"] },
   ],
   travel: [
-    { type: "flight", from: "Dallas (DFW)", to: "Portland (PWM)", date: "July 22", time: "11:57 a.m. → 4:44 p.m.", duration: "3h 47m", operator: "American Airlines AA 2353", class: "Economy" },
+    { type: "flight", from: "Dallas (DFW)", to: "Portland (PWM)", date: "July 22", time: "11:57 am → 4:44 pm", duration: "3h 47m", operator: "American Airlines AA 2353", class: "Economy" },
     { type: "rental  car", pickup: "Portland airport", date: "July 22", time: "5 p.m.", operator: "Avis" },
-    { type: "flight", from: "Portland (PWM)", to: "Dallas (DFW)", date: "July 26", time: "5:36 p.m. → 9 p.m.", duration: "4h 24m", operator: "American Airlines AA 2353", class: "Economy" },
+    { type: "flight", from: "Portland (PWM)", to: "Dallas (DFW)", date: "July 26", time: "5:36 pm → 9 pm", duration: "4h 24m", operator: "American Airlines AA 2353", class: "Economy" },
   ],
   hotels: [
     { name: "Hyatt Regency Shinjuku", location: "Tokyo", checkIn: "Oct 12", checkOut: "Oct 15", nights: 3, pricePerNight: 180, rating: 4.5, amenities: ["Free WiFi", "Gym", "Restaurant", "Concierge"] },
