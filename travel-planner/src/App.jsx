@@ -21,7 +21,7 @@ const sampleData = {
   ],
   travel: [
     { type: "flight", from: "Dallas (DFW)", to: "Portland (PWM)", date: "July 22", time: "11:57 a.m. → 4:44 p.m.", duration: "3h 47m", operator: "American Airlines AA# 2353" },
-    { type: "rental car", pickup: "Portland (PWM)", to: "Kyoto", date: "Oct 15", time: "9:03 AM → 11:33 AM", duration: "2h 30m", operator: "Shinkansen Nozomi 7", },
+    { type: "rental car", from: "Portland (PWM)", to: "", date: "Oct 15", time: "9:03 AM → 11:33 AM", duration: "2h 30m", operator: "Shinkansen Nozomi 7", },
     { type: "flight", from: "Portland (PWM)", to: "Dallas (DFW)", date: "July 26", time: "5:36 p.m. → 9 p.m.", duration: "4h 24m", operator: "American Airlines AA# 2353", },
   
   ],
