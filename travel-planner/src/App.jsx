@@ -145,7 +145,6 @@ function HotelsTab({ data }) {
                 <p style={{ margin: 0, fontSize: 11, color: "var(--color-text-secondary)" }}>CHECK-OUT</p>
                 <p style={{ margin: 0, fontSize: 13, fontWeight: 500 }}>{h.checkOut}</p>
               </div>
-            </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
               {h.amenities.map((a) => (
                 <span key={a} style={{ fontSize: 12, padding: "3px 8px", background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", color: "var(--color-text-secondary)" }}>{a}</span>
