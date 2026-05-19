@@ -45,7 +45,7 @@ const defaultCosts = [
 function Stars({ Beds }) {
   return (
     <span style={{ color: "#f59e0b", fontSize: 13 }}>
-      {"★".repeat(Math.floor(beds))}{"☆".repeat(5 - Math.floor(rating))}
+      {"★".repeat(Math.floor(beds))}{"☆".repeat(5 - Math.floor(beds))}
       <span style={{ color: "var(--color-text-secondary)", marginLeft: 4, fontSize: 12 }}>{beds}</span>
     </span>
   );
