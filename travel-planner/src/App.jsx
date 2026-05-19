@@ -10,20 +10,18 @@ const NAV_ICONS = {
 };
 
 const sampleData = {
-  tripName: "Jordan's Adventure",
-  dates: "Oct 12–25, 2025",
+  tripName: "Joji & Momi's Maine Adventure",
+  dates: "July 22 - 26, 2026",
   itinerary: [
-    { day: 1, date: "Oct 12", location: "Tokyo", events: ["Arrive at Narita Airport", "Check in at Shinjuku hotel", "Explore Shinjuku at night"] },
-    { day: 2, date: "Oct 13", location: "Tokyo", events: ["Senso-ji Temple, Asakusa", "Tsukiji Outer Market lunch", "TeamLab Planets evening"] },
-    { day: 3, date: "Oct 14", location: "Tokyo", events: ["Shibuya Crossing & shopping", "Harajuku & Meiji Shrine", "Dinner in Ginza"] },
-    { day: 4, date: "Oct 15", location: "Kyoto", events: ["Bullet train Tokyo → Kyoto", "Fushimi Inari Shrine", "Gion district stroll"] },
-    { day: 5, date: "Oct 16", location: "Kyoto", events: ["Arashiyama Bamboo Grove", "Kinkaku-ji Golden Pavilion", "Traditional kaiseki dinner"] },
-    { day: 6, date: "Oct 17", location: "Osaka", events: ["Train Kyoto → Osaka", "Dotonbori street food tour", "Osaka Castle"] },
+    { day: 1, date: "July 22", location: "Portland", events: ["Arrive at Portland Airport", "Pick up rental car", "Check in at Portland Harbor Hotel", "Dinner at XX", "Explore Portland at night"] },
+    { day: 2, date: "July 23", location: "Portland", events: ["Senso-ji Temple, Asakusa", "Tsukiji Outer Market lunch", "TeamLab Planets evening"] },
+    { day: 3, date: "July 24", location: "Portland/Ogunquit", events: ["Shibuya Crossing & shopping", "Harajuku & Meiji Shrine", "Dinner in Ginza"] },
+    { day: 4, date: "July 25", location: "Ogunquit/Wells/Kennebunkport", events: ["Bullet train Tokyo → Kyoto", "Fushimi Inari Shrine", "Gion district stroll"] },
+    { day: 5, date: "July 26", location: "Ogunquit/Kennebunkport/Portland", events: ["Arashiyama Bamboo Grove", "Kinkaku-ji Golden Pavilion", "Traditional kaiseki dinner"] },
   ],
   travel: [
     { type: "flight", from: "Dallas (DFW)", to: "Tokyo (NRT)", date: "Oct 12", time: "11:30 AM → Oct 13 3:45 PM", duration: "14h 15m", operator: "Japan Airlines JL411", class: "Economy" },
     { type: "train", from: "Tokyo (Shinjuku)", to: "Kyoto", date: "Oct 15", time: "9:03 AM → 11:33 AM", duration: "2h 30m", operator: "Shinkansen Nozomi 7", class: "Reserved Seat" },
-    { type: "train", from: "Kyoto", to: "Osaka (Shin-Osaka)", date: "Oct 17", time: "10:00 AM → 10:15 AM", duration: "15m", operator: "Shinkansen Hikari", class: "Reserved Seat" },
     { type: "flight", from: "Osaka (KIX)", to: "Dallas (DFW)", date: "Oct 25", time: "4:00 PM → Oct 25 6:30 PM", duration: "12h 30m", operator: "American Airlines AA170", class: "Economy" },
   ],
   hotels: [
