@@ -26,8 +26,8 @@ const sampleData = {
   
   ],
   hotels: [
-    { name: "Portland Harbor Hotel", location: "Portland", checkIn: "July 22", checkOut: "July 24", nights: 2, rating: 4.5, amenities: ["Free WiFi", "Gym", "Restaurant", "Concierge"] },
-    { name: "Gorges Grant Hotel", location: "Ogunquit", checkIn: "July 24", checkOut: "July 26", nights: 2, rating: 4.8, amenities: ["Free WiFi", "Onsen", "Japanese Garden", "Tea Ceremony"] },
+    { name: "Portland Harbor Hotel", location: "Portland", checkIn: "July 22", checkOut: "July 24", nights: 2, Beds: 2, amenities: ["Free WiFi", "Gym", "Restaurant", "Concierge"] },
+    { name: "Gorges Grant Hotel", location: "Ogunquit", checkIn: "July 24", checkOut: "July 26", nights: 2, Beds: 2, amenities: ["Free WiFi", "Onsen", "Japanese Garden", "Tea Ceremony"] },
   ],
 };
 
@@ -42,13 +42,6 @@ const defaultCosts = [
   { id: 8, category: "Misc", item: "Shopping & misc", amount: 400 },
 ];
 
-function Stars({ rating }) {
-  return (
-    <span style={{ color: "#f59e0b", fontSize: 13 }}>
-      {"★".repeat(Math.floor(rating))}{"☆".repeat(5 - Math.floor(rating))}
-      <span style={{ color: "var(--color-text-secondary)", marginLeft: 4, fontSize: 12 }}>{rating}</span>
-    </span>
-  );
 }
 
 function ItineraryTab({ data }) {
