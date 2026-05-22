@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-const TABS = ["itinerary", "travel", "hotels", "costs"];
+const TABS = ["itinerary", "travel", "hotels", "dining", "costs"];
 
 const NAV_ICONS = {
   itinerary: "🗓️",
   travel: "✈️",
   hotels: "🏨",
+  dining: "🍽️",
   costs: "💰",
 };
 
@@ -27,6 +28,15 @@ const sampleData = {
   hotels: [
     { name: "Portland Harbor Hotel", location: "Portland", checkIn: "July 22", checkOut: "July 24", nights: 2, amenities: ["Free WiFi", "Gym", "Restaurant", "Concierge"] },
     { name: "Gorges Grant Hotel", location: "Ogunquit", checkIn: "July 24", checkOut: "July 26", nights: 2, amenities: ["Free WiFi", "Onsen", "Japanese Garden", "Tea Ceremony"] },
+  ],
+  dining: [
+    { id: 1, name: "Central Provisions", location: "Portland", date: "July 22", meal: "Dinner", notes: "Small plates, reservations recommended", booked: true },
+    { id: 2, name: "Hunt & Alpine Club", location: "Portland", date: "July 22", meal: "Drinks", notes: "Cocktail bar, walk-ins usually fine", booked: true },
+    { id: 3, name: "Street & Co.", location: "Portland", date: "July 23", meal: "Dinner", notes: "Seafood pasta, very popular — book early", booked: false },
+    { id: 4, name: "Eventide Oyster Co.", location: "Portland", date: "July 23", meal: "Lunch", notes: "Best oysters in town", booked: false },
+    { id: 5, name: "Arrows Restaurant", location: "Ogunquit", date: "July 24", meal: "Dinner", notes: "Farm-to-table, upscale", booked: false },
+    { id: 6, name: "Pier 77 Restaurant", location: "Kennebunkport", date: "July 25", meal: "Lunch", notes: "Waterfront views, casual", booked: true },
+    { id: 7, name: "Earth at Hidden Pond", location: "Kennebunkport", date: "July 25", meal: "Dinner", notes: "Forest setting, seasonal menu", booked: false },
   ],
 };
 
@@ -153,6 +163,104 @@ function HotelsTab({ data }) {
   );
 }
 
+function DiningTab({ initialData }) {
+  const [restaurants, setRestaurants] = useState(initialData);
+
+  const toggleBooked = (id) => {
+    setRestaurants((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, booked: !r.booked } : r))
+    );
+  };
+
+  const booked = restaurants.filter((r) => r.booked).length;
+  const needToBook = restaurants.filter((r) => !r.booked).length;
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 13, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: "1rem" }}>
+        Dining reservations
+      </h2>
+
+      {/* Summary pills */}
+      <div style={{ display: "flex", gap: 10, marginBottom: "1.5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#f0fdf4", border: "0.5px solid #bbf7d0", borderRadius: "var(--border-radius-md)", padding: "6px 12px" }}>
+          <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#16a34a", display: "inline-block" }} />
+          <span style={{ fontSize: 13, color: "#15803d", fontWeight: 500 }}>{booked} Booked</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#fff1f2", border: "0.5px solid #fecdd3", borderRadius: "var(--border-radius-md)", padding: "6px 12px" }}>
+          <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#dc2626", display: "inline-block" }} />
+          <span style={{ fontSize: 13, color: "#b91c1c", fontWeight: 500 }}>{needToBook} Need to book</span>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {restaurants.map((r) => (
+          <div
+            key={r.id}
+            style={{
+              background: "var(--color-background-primary)",
+              border: `0.5px solid ${r.booked ? "#bbf7d0" : "#fecdd3"}`,
+              borderRadius: "var(--border-radius-lg)",
+              padding: "1rem 1.25rem",
+              transition: "border-color 0.2s",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
+                  <p style={{ margin: 0, fontWeight: 500, fontSize: 15 }}>{r.name}</p>
+                  <span style={{
+                    fontSize: 11,
+                    fontWeight: 500,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                    padding: "2px 7px",
+                    borderRadius: "var(--border-radius-md)",
+                    background: "var(--color-background-secondary)",
+                    color: "var(--color-text-secondary)",
+                  }}>
+                    {r.meal}
+                  </span>
+                </div>
+                <p style={{ margin: "0 0 4px", fontSize: 13, color: "var(--color-text-secondary)" }}>
+                  📍 {r.location} · {r.date}
+                </p>
+                {r.notes && (
+                  <p style={{ margin: 0, fontSize: 13, color: "var(--color-text-secondary)", fontStyle: "italic" }}>
+                    {r.notes}
+                  </p>
+                )}
+              </div>
+
+              {/* Status toggle button */}
+              <button
+                onClick={() => toggleBooked(r.id)}
+                style={{
+                  flexShrink: 0,
+                  padding: "6px 14px",
+                  borderRadius: "var(--border-radius-md)",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  transition: "background 0.2s, color 0.2s",
+                  background: r.booked ? "#16a34a" : "#dc2626",
+                  color: "#ffffff",
+                  minWidth: 110,
+                }}
+              >
+                {r.booked ? "✓ Booked" : "Need to Book"}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function CostsTab() {
   const [costs, setCosts] = useState(defaultCosts);
   const [people, setPeople] = useState(2);
@@ -247,6 +355,7 @@ export default function App() {
         {tab === "itinerary" && <ItineraryTab data={sampleData.itinerary} />}
         {tab === "travel" && <TravelTab data={sampleData.travel} />}
         {tab === "hotels" && <HotelsTab data={sampleData.hotels} />}
+        {tab === "dining" && <DiningTab initialData={sampleData.dining} />}
         {tab === "costs" && <CostsTab />}
       </main>
     </div>
