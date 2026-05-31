@@ -17,7 +17,7 @@ const sampleData = {
     { day: 1, date: "July 22", location: "Portland", events: ["5 p.m. - Arrive at Portland Airport", "6 p.m. - Check in at Portland Harbor Hotel", "7:30 p.m. - Dinner at Central Provisions", "Hunt & Alpine for nightcap"] },
     { day: 2, date: "July 23", location: "Portland", events: ["Senso-ji Temple, Asakusa", "11 a.m. - Lunch at Eventide Oyster Co", "7 p.m. - Dinner at Scales."] },
     { day: 3, date: "July 24", location: "Portland/Ogunquit", events: ["Shibuya Crossing & shopping", "Harajuku & Meiji Shrine", "Dinner in Ginza"] },
-    { day: 4, date: "July 25", location: "Ogunquit/Wells/Kennebunkport", events: ["Bullet train Tokyo → Kyoto", "Fushimi Inari Shrine", "Gion district stroll"] },
+    { day: 4, date: "July 25", location: "Ogunquit/Wells/Kennebunkport", events: ["9 a.m. - The Tree Spa", "Fushimi Inari Shrine", "Gion district stroll"] },
     { day: 5, date: "July 26", location: "Ogunquit/Kennebunkport/Portland", events: ["Arashiyama Bamboo Grove", "Kinkaku-ji Golden Pavilion", "Traditional kaiseki dinner"] },
   ],
   travel: [
