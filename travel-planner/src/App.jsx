@@ -1,13 +1,12 @@
 import { useState } from "react";
 
-const TABS = ["itinerary", "travel", "hotels", "dining", "costs"];
+const TABS = ["itinerary", "travel", "hotels", "dining"];
 
 const NAV_ICONS = {
   itinerary: "🗓️",
   travel: "✈️",
   hotels: "🏨",
   dining: "🍽️",
-  costs: "💰",
 };
 
 const sampleData = {
@@ -39,18 +38,6 @@ const sampleData = {
     { id: 7, name: "Earth at Hidden Pond", location: "Kennebunkport", date: "July 25", meal: "Dinner", notes: "Forest setting, seasonal menu", booked: false },
   ],
 };
-
-const defaultCosts = [
-  { id: 1, category: "Flights", item: "Round-trip flights (x2)", amount: 2400 },
-  { id: 2, category: "Hotels", item: "Tokyo – 3 nights", amount: 1080 },
-  { id: 3, category: "Hotels", item: "Kyoto – 2 nights", amount: 880 },
-  { id: 4, category: "Hotels", item: "Osaka – 8 nights", amount: 2080 },
-  { id: 5, category: "Travel", item: "Shinkansen passes", amount: 340 },
-  { id: 6, category: "Food", item: "Dining budget (est.)", amount: 600 },
-  { id: 7, category: "Activities", item: "Attractions & tours", amount: 300 },
-  { id: 8, category: "Misc", item: "Shopping & misc", amount: 400 },
-];
-
 function ItineraryTab({ data }) {
   const [expanded, setExpanded] = useState(null);
   return (
@@ -261,26 +248,6 @@ function DiningTab({ initialData }) {
   );
 }
 
-function CostsTab() {
-  const [costs, setCosts] = useState(defaultCosts);
-  const [people, setPeople] = useState(2);
-  const [newItem, setNewItem] = useState({ category: "Food", item: "", amount: "" });
-  const [nextId, setNextId] = useState(defaultCosts.length + 1);
-
-  const total = costs.reduce((s, c) => s + Number(c.amount), 0);
-  const perPerson = total / people;
-  const categories = [...new Set(costs.map((c) => c.category))];
-
-  function addItem() {
-    if (!newItem.item || !newItem.amount) return;
-    setCosts([...costs, { ...newItem, id: nextId, amount: Number(newItem.amount) }]);
-    setNextId(nextId + 1);
-    setNewItem({ category: "Food", item: "", amount: "" });
-  }
-
-  function removeItem(id) {
-    setCosts(costs.filter((c) => c.id !== id));
-  }
 
   return (
     <div>
