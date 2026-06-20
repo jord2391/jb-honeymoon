@@ -38,6 +38,7 @@ const sampleData = {
     { id: 7, name: "Earth at Hidden Pond", location: "Kennebunkport", date: "July 25", meal: "Dinner", notes: "Forest setting, seasonal menu", booked: false },
   ],
 };
+
 function ItineraryTab({ data }) {
   const [expanded, setExpanded] = useState(null);
   return (
@@ -168,7 +169,6 @@ function DiningTab({ initialData }) {
         Dining reservations
       </h2>
 
-      {/* Summary pills */}
       <div style={{ display: "flex", gap: 10, marginBottom: "1.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#f0fdf4", border: "0.5px solid #bbf7d0", borderRadius: "var(--border-radius-md)", padding: "6px 12px" }}>
           <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#16a34a", display: "inline-block" }} />
@@ -219,7 +219,6 @@ function DiningTab({ initialData }) {
                 )}
               </div>
 
-              {/* Status toggle button */}
               <button
                 onClick={() => toggleBooked(r.id)}
                 style={{
@@ -243,56 +242,6 @@ function DiningTab({ initialData }) {
             </div>
           </div>
         ))}
-      </div>
-    </div>
-  );
-}
-
-
-  return (
-    <div>
-      <h2 style={{ fontSize: 13, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: "1.5rem" }}>Cost breakdown</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10, marginBottom: "1.5rem" }}>
-        {[
-          { label: "Total cost", value: `$${total.toLocaleString()}` },
-          { label: "Travellers", value: people },
-          { label: "Per person", value: `$${Math.round(perPerson).toLocaleString()}` },
-        ].map((m) => (
-          <div key={m.label} style={{ background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", padding: "1rem", textAlign: "center" }}>
-            <p style={{ margin: 0, fontSize: 12, color: "var(--color-text-secondary)" }}>{m.label}</p>
-            <p style={{ margin: "4px 0 0", fontSize: 22, fontWeight: 500 }}>{m.value}</p>
-          </div>
-        ))}
-      </div>
-      <div style={{ marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: 12 }}>
-        <label style={{ fontSize: 14, color: "var(--color-text-secondary)", whiteSpace: "nowrap" }}>Number of travellers:</label>
-        <input type="range" min="1" max="12" value={people} step="1" onChange={(e) => setPeople(Number(e.target.value))} style={{ flex: 1 }} />
-        <span style={{ fontSize: 16, fontWeight: 500, minWidth: 24 }}>{people}</span>
-      </div>
-      {categories.map((cat) => (
-        <div key={cat} style={{ marginBottom: "1.25rem" }}>
-          <p style={{ margin: "0 0 6px", fontSize: 12, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--color-text-secondary)" }}>{cat}</p>
-          <div style={{ background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)", borderRadius: "var(--border-radius-lg)", overflow: "hidden" }}>
-            {costs.filter((c) => c.category === cat).map((c, i, arr) => (
-              <div key={c.id} style={{ display: "flex", alignItems: "center", padding: "10px 14px", borderBottom: i < arr.length - 1 ? "0.5px solid var(--color-border-tertiary)" : "none" }}>
-                <span style={{ flex: 1, fontSize: 14 }}>{c.item}</span>
-                <span style={{ fontWeight: 500, fontSize: 14, marginRight: 12 }}>${Number(c.amount).toLocaleString()}</span>
-                <button onClick={() => removeItem(c.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-text-danger)", fontSize: 16, padding: "0 2px", lineHeight: 1 }}>×</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-      <div style={{ background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem", marginTop: "1.5rem" }}>
-        <p style={{ margin: "0 0 10px", fontSize: 13, fontWeight: 500 }}>Add expense</p>
-        <div style={{ display: "grid", gridTemplateColumns: "120px 1fr 90px auto", gap: 8, alignItems: "center" }}>
-          <select value={newItem.category} onChange={(e) => setNewItem({ ...newItem, category: e.target.value })} style={{ fontSize: 13 }}>
-            {["Flights", "Hotels", "Travel", "Food", "Activities", "Misc"].map((c) => <option key={c}>{c}</option>)}
-          </select>
-          <input placeholder="Description" value={newItem.item} onChange={(e) => setNewItem({ ...newItem, item: e.target.value })} style={{ fontSize: 13 }} />
-          <input placeholder="Amount $" type="number" value={newItem.amount} onChange={(e) => setNewItem({ ...newItem, amount: e.target.value })} style={{ fontSize: 13 }} />
-          <button onClick={addItem} style={{ whiteSpace: "nowrap", fontSize: 13 }}>+ Add</button>
-        </div>
       </div>
     </div>
   );
@@ -323,7 +272,6 @@ export default function App() {
         {tab === "travel" && <TravelTab data={sampleData.travel} />}
         {tab === "hotels" && <HotelsTab data={sampleData.hotels} />}
         {tab === "dining" && <DiningTab initialData={sampleData.dining} />}
-        {tab === "costs" && <CostsTab />}
       </main>
     </div>
   );
