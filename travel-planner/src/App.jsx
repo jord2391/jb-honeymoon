@@ -4,14 +4,14 @@ const TABS = ["itinerary", "travel", "hotels", "dining"];
 
 const NAV_ICONS = {
   itinerary: "🗓️",
-  travel: "✈️",
-  hotels: "🏨",
-  dining: "🍽️",
+  travel: "⛵",
+  hotels: "🏖️",
+  dining: "🦞",
 };
 
 const sampleData = {
   tripName: "Joji & Momi's Maine Adventure",
-  dates: "July 22 - 26, 2026",
+  dates: "July 22 – 26, 2026",
   itinerary: [
     { day: 1, date: "July 22", location: "Portland", events: ["5 p.m. - Arrive at Portland Airport", "6 p.m. - Check in at Portland Harbor Hotel", "7:30 p.m. - Dinner at Central Provisions", "Hunt & Alpine for nightcap"] },
     { day: 2, date: "July 23", location: "Portland", events: ["8 a.m. - Breakfast at Standard Baking Co", "9 a.m. - Stroll the Old Port", "11 a.m. - Lunch at Eventide Oyster Co", "7 p.m. - Dinner at Scales."] },
@@ -39,32 +39,130 @@ const sampleData = {
   ],
 };
 
+// ---- design tokens (Maine coast summer) ----
+const C = {
+  sand: "#FAF6EE",
+  card: "#FFFFFF",
+  harbor: "#0E4D64",
+  harborDeep: "#0A3A4D",
+  coral: "#FF6B4A",
+  coralSoft: "#FFE3D9",
+  seaglass: "#2A8C82",
+  seaglassSoft: "#E0F2EE",
+  ink: "#1C2B33",
+  inkSoft: "#5B6B72",
+  rope: "#E8DEC8",
+  ropeLine: "#DCD0B4",
+  danger: "#D1483A",
+  dangerSoft: "#FBE3DF",
+};
+
+const fontDisplay = "'Fraunces', Georgia, serif";
+const fontBody = "'Inter', system-ui, sans-serif";
+const fontMono = "'JetBrains Mono', monospace";
+
+const FONT_IMPORT_ID = "trip-app-fonts";
+if (typeof document !== "undefined" && !document.getElementById(FONT_IMPORT_ID)) {
+  const link = document.createElement("link");
+  link.id = FONT_IMPORT_ID;
+  link.rel = "stylesheet";
+  link.href =
+    "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap";
+  document.head.appendChild(link);
+}
+
+function WaveDivider() {
+  return (
+    <svg
+      viewBox="0 0 1200 40"
+      preserveAspectRatio="none"
+      style={{ display: "block", width: "100%", height: 16 }}
+    >
+      <path
+        d="M0 20 Q 50 0 100 20 T 200 20 T 300 20 T 400 20 T 500 20 T 600 20 T 700 20 T 800 20 T 900 20 T 1000 20 T 1100 20 T 1200 20 V40 H0 Z"
+        fill={C.sand}
+      />
+    </svg>
+  );
+}
+
+function SectionLabel({ children }) {
+  return (
+    <h2
+      style={{
+        fontFamily: fontDisplay,
+        fontSize: 22,
+        fontWeight: 600,
+        color: C.harbor,
+        marginBottom: "1.5rem",
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+      }}
+    >
+      {children}
+      <span style={{ flex: 1, height: 1, background: C.ropeLine, marginLeft: 4 }} />
+    </h2>
+  );
+}
+
 function ItineraryTab({ data }) {
   const [expanded, setExpanded] = useState(null);
   return (
     <div>
-      <h2 style={{ fontSize: 13, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: "1.5rem" }}>Day-by-day plan</h2>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <SectionLabel>Day-by-day plan</SectionLabel>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {data.map((d) => (
-          <div key={d.day} onClick={() => setExpanded(expanded === d.day ? null : d.day)}
-            style={{ background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem", cursor: "pointer", transition: "border-color 0.15s" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ minWidth: 40, height: 40, borderRadius: "var(--border-radius-md)", background: "var(--color-background-info)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ fontSize: 10, fontWeight: 500, color: "var(--color-text-info)", lineHeight: 1 }}>DAY</span>
-                <span style={{ fontSize: 16, fontWeight: 500, color: "var(--color-text-info)", lineHeight: 1.2 }}>{d.day}</span>
+          <div
+            key={d.day}
+            onClick={() => setExpanded(expanded === d.day ? null : d.day)}
+            style={{
+              background: C.card,
+              border: `1px solid ${C.rope}`,
+              borderRadius: 16,
+              padding: "1.1rem 1.3rem",
+              cursor: "pointer",
+              transition: "border-color 0.15s, box-shadow 0.15s",
+              boxShadow: expanded === d.day ? `0 4px 16px ${C.seaglassSoft}` : "none",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <div
+                style={{
+                  minWidth: 46,
+                  height: 46,
+                  borderRadius: "50%",
+                  background: C.harbor,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <span style={{ fontSize: 9, fontFamily: fontBody, fontWeight: 600, color: C.coralSoft, letterSpacing: "0.08em", lineHeight: 1 }}>DAY</span>
+                <span style={{ fontSize: 17, fontFamily: fontDisplay, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>{d.day}</span>
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ margin: 0, fontWeight: 500, fontSize: 15 }}>{d.location}</p>
-                <p style={{ margin: 0, fontSize: 13, color: "var(--color-text-secondary)" }}>{d.date} · {d.events.length} activities</p>
+                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>{d.location}</p>
+                <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>{d.date} · {d.events.length} activities</p>
               </div>
-              <span style={{ color: "var(--color-text-secondary)", fontSize: 18, transition: "transform 0.2s", transform: expanded === d.day ? "rotate(180deg)" : "rotate(0deg)" }}>⌄</span>
+              <span
+                style={{
+                  color: C.seaglass,
+                  fontSize: 20,
+                  transition: "transform 0.2s",
+                  transform: expanded === d.day ? "rotate(180deg)" : "rotate(0deg)",
+                }}
+              >
+                ⌄
+              </span>
             </div>
             {expanded === d.day && (
-              <div style={{ marginTop: 12, paddingTop: 12, borderTop: "0.5px solid var(--color-border-tertiary)" }}>
+              <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }}>
                 {d.events.map((e, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 8 : 0 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--color-border-info)", marginTop: 7, flexShrink: 0 }} />
-                    <span style={{ fontSize: 14 }}>{e}</span>
+                  <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 9 : 0 }}>
+                    <span style={{ fontSize: 12, color: C.coral, marginTop: 2, flexShrink: 0 }}>⛱</span>
+                    <span style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}>{e}</span>
                   </div>
                 ))}
               </div>
@@ -79,32 +177,54 @@ function ItineraryTab({ data }) {
 function TravelTab({ data }) {
   return (
     <div>
-      <h2 style={{ fontSize: 13, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: "1.5rem" }}>Flights & rental car</h2>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <SectionLabel>Flights &amp; rental car</SectionLabel>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {data.map((t, i) => (
-          <div key={i} style={{ background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-              <span style={{ fontSize: 18 }}>{t.type === "flight" ? "✈️" : "🚗"}</span>
-              <span style={{ fontSize: 12, fontWeight: 500, background: t.type === "flight" ? "var(--color-background-info)" : "var(--color-background-success)", color: t.type === "flight" ? "var(--color-text-info)" : "var(--color-text-success)", padding: "2px 8px", borderRadius: "var(--border-radius-md)" }}>{t.type === "flight" ? "Flight" : "Rental car"}</span>
-              <span style={{ fontSize: 13, color: "var(--color-text-secondary)", marginLeft: "auto" }}>{t.date}</span>
+          <div
+            key={i}
+            style={{
+              background: C.card,
+              border: `1px solid ${C.rope}`,
+              borderRadius: 16,
+              padding: "1.1rem 1.3rem",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+              <span style={{ fontSize: 18 }}>{t.type === "flight" ? "⛵" : "🚙"}</span>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontFamily: fontBody,
+                  fontWeight: 600,
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase",
+                  background: t.type === "flight" ? C.seaglassSoft : C.coralSoft,
+                  color: t.type === "flight" ? C.seaglass : C.coral,
+                  padding: "3px 9px",
+                  borderRadius: 20,
+                }}
+              >
+                {t.type === "flight" ? "Flight" : "Rental car"}
+              </span>
+              <span style={{ fontSize: 12, fontFamily: fontMono, color: C.inkSoft, marginLeft: "auto" }}>{t.date}</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontWeight: 500, fontSize: 16 }}>{t.from.split(" ")[0]}</p>
-                <p style={{ margin: 0, fontSize: 12, color: "var(--color-text-secondary)" }}>{t.time.split(" → ")[0]}</p>
+                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>{t.from.split(" ")[0]}</p>
+                <p style={{ margin: 0, fontSize: 12, fontFamily: fontMono, color: C.inkSoft }}>{t.time.split(" → ")[0]}</p>
               </div>
-              <div style={{ flex: 1, display: "flex", alignItems: "center", flexDirection: "column", gap: 2 }}>
-                <span style={{ fontSize: 11, color: "var(--color-text-secondary)" }}>{t.duration}</span>
-                <div style={{ width: "100%", height: 1, background: "var(--color-border-secondary)", position: "relative" }}>
-                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--color-border-secondary)", position: "absolute", right: 0, top: -2.5 }} />
+              <div style={{ flex: 1, display: "flex", alignItems: "center", flexDirection: "column", gap: 3 }}>
+                <span style={{ fontSize: 11, fontFamily: fontMono, color: C.seaglass }}>{t.duration}</span>
+                <div style={{ width: "100%", height: 1, background: C.ropeLine, position: "relative" }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.coral, position: "absolute", right: 0, top: -3 }} />
                 </div>
               </div>
               <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontWeight: 500, fontSize: 16 }}>{t.to.split(" ")[0]}</p>
-                <p style={{ margin: 0, fontSize: 12, color: "var(--color-text-secondary)" }}>{t.time.split(" → ")[1]}</p>
+                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>{t.to.split(" ")[0]}</p>
+                <p style={{ margin: 0, fontSize: 12, fontFamily: fontMono, color: C.inkSoft }}>{t.time.split(" → ")[1]}</p>
               </div>
             </div>
-            <div style={{ marginTop: 10, paddingTop: 10, borderTop: "0.5px solid var(--color-border-tertiary)", fontSize: 12, color: "var(--color-text-secondary)" }}>
+            <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px dashed ${C.ropeLine}`, fontSize: 12, fontFamily: fontBody, color: C.inkSoft }}>
               <span>{t.operator}</span>
             </div>
           </div>
@@ -117,31 +237,62 @@ function TravelTab({ data }) {
 function HotelsTab({ data }) {
   return (
     <div>
-      <h2 style={{ fontSize: 13, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: "1.5rem" }}>Accommodation</h2>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <SectionLabel>Accommodation</SectionLabel>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {data.map((h, i) => (
-          <div key={i} style={{ background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem" }}>
-            <div style={{ marginBottom: 8 }}>
-              <p style={{ margin: 0, fontWeight: 500, fontSize: 16 }}>{h.name}</p>
-              <p style={{ margin: 0, fontSize: 13, color: "var(--color-text-secondary)" }}>📍 {h.location}</p>
+          <div
+            key={i}
+            style={{
+              background: C.card,
+              border: `1px solid ${C.rope}`,
+              borderRadius: 16,
+              padding: "1.1rem 1.3rem",
+            }}
+          >
+            <div style={{ marginBottom: 10 }}>
+              <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 18, color: C.ink }}>{h.name}</p>
+              <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>📍 {h.location}</p>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, margin: "12px 0", padding: "10px 0", borderTop: "0.5px solid var(--color-border-tertiary)", borderBottom: "0.5px solid var(--color-border-tertiary)" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gap: 8,
+                margin: "12px 0",
+                padding: "10px 0",
+                borderTop: `1px dashed ${C.ropeLine}`,
+                borderBottom: `1px dashed ${C.ropeLine}`,
+              }}
+            >
               <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontSize: 11, color: "var(--color-text-secondary)" }}>CHECK-IN</p>
-                <p style={{ margin: 0, fontSize: 13, fontWeight: 500 }}>{h.checkIn}</p>
+                <p style={{ margin: 0, fontSize: 10, fontFamily: fontBody, fontWeight: 600, letterSpacing: "0.06em", color: C.seaglass }}>CHECK-IN</p>
+                <p style={{ margin: 0, fontSize: 13, fontFamily: fontMono, color: C.ink }}>{h.checkIn}</p>
               </div>
               <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontSize: 11, color: "var(--color-text-secondary)" }}>NIGHTS</p>
-                <p style={{ margin: 0, fontSize: 20, fontWeight: 500 }}>{h.nights}</p>
+                <p style={{ margin: 0, fontSize: 10, fontFamily: fontBody, fontWeight: 600, letterSpacing: "0.06em", color: C.seaglass }}>NIGHTS</p>
+                <p style={{ margin: 0, fontSize: 20, fontFamily: fontDisplay, fontWeight: 600, color: C.ink }}>{h.nights}</p>
               </div>
               <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontSize: 11, color: "var(--color-text-secondary)" }}>CHECK-OUT</p>
-                <p style={{ margin: 0, fontSize: 13, fontWeight: 500 }}>{h.checkOut}</p>
+                <p style={{ margin: 0, fontSize: 10, fontFamily: fontBody, fontWeight: 600, letterSpacing: "0.06em", color: C.seaglass }}>CHECK-OUT</p>
+                <p style={{ margin: 0, fontSize: 13, fontFamily: fontMono, color: C.ink }}>{h.checkOut}</p>
               </div>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
               {h.amenities.map((a) => (
-                <span key={a} style={{ fontSize: 12, padding: "3px 8px", background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", color: "var(--color-text-secondary)" }}>{a}</span>
+                <span
+                  key={a}
+                  style={{
+                    fontSize: 12,
+                    fontFamily: fontBody,
+                    padding: "4px 10px",
+                    background: C.sand,
+                    border: `1px solid ${C.ropeLine}`,
+                    borderRadius: 20,
+                    color: C.harbor,
+                  }}
+                >
+                  {a}
+                </span>
               ))}
             </div>
           </div>
@@ -165,55 +316,76 @@ function DiningTab({ initialData }) {
 
   return (
     <div>
-      <h2 style={{ fontSize: 13, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: "1rem" }}>
-        Dining reservations
-      </h2>
+      <SectionLabel>Dining reservations</SectionLabel>
 
       <div style={{ display: "flex", gap: 10, marginBottom: "1.5rem" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#f0fdf4", border: "0.5px solid #bbf7d0", borderRadius: "var(--border-radius-md)", padding: "6px 12px" }}>
-          <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#16a34a", display: "inline-block" }} />
-          <span style={{ fontSize: 13, color: "#15803d", fontWeight: 500 }}>{booked} Booked</span>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: C.seaglassSoft,
+            border: `1px solid ${C.seaglass}33`,
+            borderRadius: 20,
+            padding: "6px 12px",
+          }}
+        >
+          <span style={{ width: 8, height: 8, borderRadius: "50%", background: C.seaglass, display: "inline-block" }} />
+          <span style={{ fontSize: 13, fontFamily: fontBody, color: C.seaglass, fontWeight: 600 }}>{booked} Booked</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#fff1f2", border: "0.5px solid #fecdd3", borderRadius: "var(--border-radius-md)", padding: "6px 12px" }}>
-          <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#dc2626", display: "inline-block" }} />
-          <span style={{ fontSize: 13, color: "#b91c1c", fontWeight: 500 }}>{needToBook} Need to book</span>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: C.coralSoft,
+            border: `1px solid ${C.coral}33`,
+            borderRadius: 20,
+            padding: "6px 12px",
+          }}
+        >
+          <span style={{ width: 8, height: 8, borderRadius: "50%", background: C.coral, display: "inline-block" }} />
+          <span style={{ fontSize: 13, fontFamily: fontBody, color: C.coral, fontWeight: 600 }}>{needToBook} Need to book</span>
         </div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {restaurants.map((r) => (
           <div
             key={r.id}
             style={{
-              background: "var(--color-background-primary)",
-              border: `0.5px solid ${r.booked ? "#bbf7d0" : "#fecdd3"}`,
-              borderRadius: "var(--border-radius-lg)",
-              padding: "1rem 1.25rem",
+              background: C.card,
+              border: `1px solid ${r.booked ? `${C.seaglass}55` : `${C.coral}55`}`,
+              borderRadius: 16,
+              padding: "1.1rem 1.3rem",
               transition: "border-color 0.2s",
             }}
           >
             <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-                  <p style={{ margin: 0, fontWeight: 500, fontSize: 15 }}>{r.name}</p>
-                  <span style={{
-                    fontSize: 11,
-                    fontWeight: 500,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    padding: "2px 7px",
-                    borderRadius: "var(--border-radius-md)",
-                    background: "var(--color-background-secondary)",
-                    color: "var(--color-text-secondary)",
-                  }}>
+                  <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 16, color: C.ink }}>{r.name}</p>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontFamily: fontBody,
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                      padding: "2px 8px",
+                      borderRadius: 20,
+                      background: C.sand,
+                      color: C.harbor,
+                    }}
+                  >
                     {r.meal}
                   </span>
                 </div>
-                <p style={{ margin: "0 0 4px", fontSize: 13, color: "var(--color-text-secondary)" }}>
+                <p style={{ margin: "0 0 4px", fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>
                   📍 {r.location} · {r.date}
                 </p>
                 {r.notes && (
-                  <p style={{ margin: 0, fontSize: 13, color: "var(--color-text-secondary)", fontStyle: "italic" }}>
+                  <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft, fontStyle: "italic" }}>
                     {r.notes}
                   </p>
                 )}
@@ -223,18 +395,19 @@ function DiningTab({ initialData }) {
                 onClick={() => toggleBooked(r.id)}
                 style={{
                   flexShrink: 0,
-                  padding: "6px 14px",
-                  borderRadius: "var(--border-radius-md)",
+                  padding: "7px 16px",
+                  borderRadius: 20,
                   border: "none",
                   cursor: "pointer",
                   fontSize: 12,
+                  fontFamily: fontBody,
                   fontWeight: 700,
-                  letterSpacing: "0.06em",
+                  letterSpacing: "0.05em",
                   textTransform: "uppercase",
-                  transition: "background 0.2s, color 0.2s",
-                  background: r.booked ? "#16a34a" : "#dc2626",
+                  transition: "background 0.2s, color 0.2s, transform 0.1s",
+                  background: r.booked ? C.seaglass : C.coral,
                   color: "#ffffff",
-                  minWidth: 110,
+                  minWidth: 116,
                 }}
               >
                 {r.booked ? "✓ Booked" : "Need to Book"}
@@ -251,23 +424,58 @@ export default function App() {
   const [tab, setTab] = useState("itinerary");
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--color-background-tertiary, #f5f4f0)", fontFamily: "var(--font-sans, system-ui)" }}>
-      <header style={{ background: "var(--color-background-primary)", borderBottom: "0.5px solid var(--color-border-tertiary)", padding: "0 1.5rem" }}>
-        <div style={{ maxWidth: 760, margin: "0 auto" }}>
-          <div style={{ padding: "1.25rem 0 0" }}>
-            <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500 }}>✈️ {sampleData.tripName}</h1>
-            <p style={{ margin: "2px 0 1rem", fontSize: 13, color: "var(--color-text-secondary)" }}>{sampleData.dates}</p>
+    <div style={{ minHeight: "100vh", background: C.sand, fontFamily: fontBody, color: C.ink }}>
+      <header style={{ background: C.harbor }}>
+        <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 1.5rem" }}>
+          <div style={{ padding: "1.5rem 0 1.1rem" }}>
+            <p
+              style={{
+                margin: "0 0 4px",
+                fontSize: 12,
+                fontFamily: fontBody,
+                fontWeight: 600,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: C.coral,
+              }}
+            >
+              ⛵ Coastal getaway
+            </p>
+            <h1 style={{ margin: 0, fontFamily: fontDisplay, fontSize: 28, fontWeight: 700, color: "#fff" }}>
+              {sampleData.tripName}
+            </h1>
+            <p style={{ margin: "4px 0 1.2rem", fontSize: 14, fontFamily: fontMono, color: "#BFD8DF" }}>
+              {sampleData.dates}
+            </p>
           </div>
-          <nav style={{ display: "flex", gap: 4 }}>
+          <nav style={{ display: "flex", gap: 6 }}>
             {TABS.map((t) => (
-              <button key={t} onClick={() => setTab(t)} style={{ background: "none", border: "none", borderBottom: tab === t ? "2px solid var(--color-text-primary)" : "2px solid transparent", padding: "8px 14px", cursor: "pointer", fontSize: 14, fontWeight: tab === t ? 500 : 400, color: tab === t ? "var(--color-text-primary)" : "var(--color-text-secondary)", textTransform: "capitalize", transition: "all 0.15s", borderRadius: 0 }}>
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                style={{
+                  background: tab === t ? "rgba(255,255,255,0.08)" : "none",
+                  border: "none",
+                  borderBottom: tab === t ? `3px solid ${C.coral}` : "3px solid transparent",
+                  padding: "9px 16px",
+                  cursor: "pointer",
+                  fontSize: 14,
+                  fontFamily: fontBody,
+                  fontWeight: tab === t ? 600 : 500,
+                  color: tab === t ? "#fff" : "#9FC0C9",
+                  textTransform: "capitalize",
+                  transition: "all 0.15s",
+                  borderRadius: "8px 8px 0 0",
+                }}
+              >
                 {NAV_ICONS[t]} {t}
               </button>
             ))}
           </nav>
         </div>
+        <WaveDivider />
       </header>
-      <main style={{ maxWidth: 760, margin: "0 auto", padding: "1.5rem" }}>
+      <main style={{ maxWidth: 760, margin: "0 auto", padding: "1.8rem 1.5rem 3rem" }}>
         {tab === "itinerary" && <ItineraryTab data={sampleData.itinerary} />}
         {tab === "travel" && <TravelTab data={sampleData.travel} />}
         {tab === "hotels" && <HotelsTab data={sampleData.hotels} />}
