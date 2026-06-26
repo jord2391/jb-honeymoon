@@ -15,9 +15,9 @@ const sampleData = {
   itinerary: [
     { day: 1, date: "July 22", location: "Portland", events: ["5 p.m. - Arrive and check in to hotel", "7:30ish p.m. - Dinner at Central Provisions", "Hunt & Alpine for nightcap"] },
     { day: 2, date: "July 23", location: "Portland", events: ["Earlyish - Grab coffee & pastry at Standard Baking Co", "Stroll the Old Port & Waterfront Walk", "Lunch at Eventide Oyster Co (either eat there or to go for lunch on the boat)", "1 p.m. - Afternoon Sail with Portland Schooner", "7 p.m. - Dinner at Scales"] },
-    { day: 3, date: "July 24", location: "Portland/Ogunquit", events: ["Breakfast at The Holy Donut", "11 a.m. - Check out of hotel + grab lunch at SoPo Market", "Head to Oguinquit", "Stop 1: Portland Head Light & Fort Williams Park", "Stop 2: Two Lights State Park", "Stop 3: Dock Square", "Stop 4: Footbridge Beach", "Dinner at Brix + Brine"] },
-    { day: 4, date: "July 25", location: "Kennebunkport/Wells", events: ["9 a.m. - Massage, Tree Spa at Hidden Pond (Donuts at Congdon's on the way)", "Lunch at The Clam Shack / Ice cream at Rococo", "7 p.m. - Dinner at M.C. Perkins Cove"] },
-    { day: 5, date: "July 26", location: "Ogunquit/Portland", events: ["Earlyish breakfast at The Egg and I", "Check out of hotel (11 by a.m.)", "Marginal Way Cliffwalk", "XX"] },
+    { day: 3, date: "July 24", location: "Portland/Ogunquit", events: ["Breakfast at The Holy Donut", "11 a.m. - Check out of hotel + grab lunch at SoPo Market", "Head to Oguinquit", "Stop 1: Portland Head Light & Fort Williams Park", "Stop 2: Two Lights State Park", "Stop 3: Footbridge Beach", "Dinner at Brix + Brine"] },
+    { day: 4, date: "July 25", location: "Kennebunkport/Wells", events: ["9 a.m. - Massage, Tree Spa at Hidden Pond (Donuts at Congdon's on the way)", "Lunch at The Clam Shack / Ice cream at Rococo", "Explore Dock Square", "Explore Perkins Cove + Dinner at M.C. Perkins Cove (7 p.m.)"] },
+    { day: 5, date: "July 26", location: "Ogunquit/Portland", events: ["Earlyish breakfast at The Egg and I", "Marginal Way Cliffwalk", "Check out of hotel (11 by a.m.)+ Head back to Portland", "Stop for lunch at Hobbs Harborside for lobster mac (Wells)", "Head back to Portland"] },
   ],
   travel: [
     { type: "flight", from: "Dallas (DFW)", to: "Portland (PWM)", date: "July 22", time: "11:57 a.m. → 4:44 p.m.", duration: "3h 47m", operator: "American Airlines AA# 2353" },
@@ -25,8 +25,8 @@ const sampleData = {
     { type: "flight", from: "Portland (PWM)", to: "Dallas (DFW)", date: "July 26", time: "5:36 p.m. → 9 p.m.", duration: "4h 24m", operator: "American Airlines AA# 2353" },
   ],
   hotels: [
-    { name: "Portland Harbor Hotel", location: "Portland", checkIn: "July 22", checkOut: "July 24", nights: 2, amenities: ["Free WiFi", "Gym", "Restaurant", "Concierge"] },
-    { name: "Gorges Grant Hotel", location: "Ogunquit", checkIn: "July 24", checkOut: "July 26", nights: 2, amenities: ["Free WiFi", "Onsen", "Japanese Garden", "Tea Ceremony"] },
+    { name: "Portland Harbor Hotel", location: "Portland", checkIn: "July 22", checkOut: "July 24", nights: 2, amenities: ["Check-in: 4 p.m.", "Check-out: 11 a.m."] },
+    { name: "Gorges Grant Hotel", location: "Ogunquit", checkIn: "July 24", checkOut: "July 26", nights: 2, amenities: ["Check-in: 3 p.m.", "Check-out: 11 a.m."] },
   ],
   dining: [
     { id: 1, name: "Central Provisions", location: "Portland", date: "July 22", meal: "Dinner", notes: "Reservations bookable 2 weeks out via Resy", booked: false },
