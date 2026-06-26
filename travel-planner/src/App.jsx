@@ -16,7 +16,7 @@ const sampleData = {
     { day: 1, date: "July 22", location: "Portland", events: ["5 p.m. - Arrive and check in to hotel", "7:30ish p.m. - Dinner at Central Provisions", "Hunt & Alpine for nightcap"] },
     { day: 2, date: "July 23", location: "Portland", events: ["Earlyish - Grab coffee & pastry at Standard Baking Co", "Stroll the Old Port & Waterfront Walk", "Lunch at Eventide Oyster Co (either eat there or to go for lunch on the boat)", "1 p.m. - Afternoon Sail with Portland Schooner", "7 p.m. - Dinner at Scales"] },
     { day: 3, date: "July 24", location: "Portland/Ogunquit", events: ["Breakfast at The Holy Donut", "11 a.m. - Check out of hotel + grab lunch at SoPo Market", "Head to Oguinquit", "Stop 1: Portland Head Light & Fort Williams Park", "Stop 2: Two Lights State Park", "Stop 3: Dock Square", "Stop 4: Footbridge Beach", "Dinner at Brix + Brine"] },
-    { day: 4, date: "July 25", location: "Ogunquit/Wells/Kennebunkport", events: ["9 a.m. - The Tree Spa at Hidden Pond, massages", "11 a.m. - Lunch at The Clam Shack", "7 p.m. - Dinner at M.C. Perkins Cove"] },
+    { day: 4, date: "July 25", location: "Ogunquit/Wells/Kennebunkport", events: ["9 a.m. - Massage at the Tree Spa at Hidden Pond", "  Stop for donuts at Congdon's on the way", "11 a.m. - Lunch at The Clam Shack", "7 p.m. - Dinner at M.C. Perkins Cove"] },
     { day: 5, date: "July 26", location: "Ogunquit/Kennebunkport/Portland", events: ["Arashiyama Bamboo Grove", "Kinkaku-ji Golden Pavilion", "Traditional kaiseki dinner"] },
   ],
   travel: [
