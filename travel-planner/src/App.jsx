@@ -16,7 +16,7 @@ const sampleData = {
     { day: 1, date: "July 22", location: "Portland", events: ["5 p.m. - Arrive at Portland Airport", "6 p.m. - Check in at Portland Harbor Hotel", "7:30 p.m. - Dinner at Central Provisions", "Hunt & Alpine for nightcap"] },
     { day: 2, date: "July 23", location: "Portland", events: ["8 a.m. - Breakfast at Standard Baking Co", "9 a.m. - Stroll the Old Port & Waterfront Walk, Exchange St.", "11 a.m. - Lunch at Eventide Oyster Co", "7 p.m. - Dinner at Scales."] },
     { day: 3, date: "July 24", location: "Portland/Ogunquit", events: ["Breakfast at The Holy Donut", "11 a.m. - Lunch at SoPo Market on the way out of town", "Dinner in Ginza"] },
-    { day: 4, date: "July 25", location: "Ogunquit/Wells/Kennebunkport", events: ["9 a.m. - The Tree Spa", "Fushimi Inari Shrine", "7 p.m. - Dinner at M.C. Perkins Cove"] },
+    { day: 4, date: "July 25", location: "Ogunquit/Wells/Kennebunkport", events: ["9 a.m. - The Tree Spa at Hidden Pond, massages", "11 a.m. - Lunch at The Clam Shack", "7 p.m. - Dinner at M.C. Perkins Cove"] },
     { day: 5, date: "July 26", location: "Ogunquit/Kennebunkport/Portland", events: ["Arashiyama Bamboo Grove", "Kinkaku-ji Golden Pavilion", "Traditional kaiseki dinner"] },
   ],
   travel: [
@@ -35,7 +35,8 @@ const sampleData = {
     { id: 4, name: "Scales", location: "Portland", date: "July 23", meal: "Dinner", notes: "Birthday dinner, yay!", booked: true },
     { id: 5, name: "SoPo Market", location: "Portland", date: "July 24", meal: "Lunch", notes: "Off the beaten path, on the way out of town - no rezy needed", booked: true },
     { id: 6, name: "XX", location: "Ogunquit", date: "July 24", meal: "Dinner", notes: "XX", booked: false },
-    { id: 7, name: "M.C. Perkins Cove", location: "Ogunquit", date: "July 25", meal: "Dinner", notes: "Best waterfront views", booked: true },
+    { id: 7, name: "The Clam Shack", location: "Kennebunk", date: "July 25", meal: "Lunch", notes: "Best lobster roll of Gabby's life - no rezy needed", booked: true },
+    { id: 8, name: "M.C. Perkins Cove", location: "Ogunquit", date: "July 25", meal: "Dinner", notes: "Best waterfront views", booked: true },
   ],
 };
 
