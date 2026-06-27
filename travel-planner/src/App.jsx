@@ -74,7 +74,7 @@ if (typeof document !== "undefined" && !document.getElementById(FONT_IMPORT_ID))
 }
 
 // ---- Password protection ----
-const SITE_PASSCODE = "ALOHA26";
+const SITE_PASSCODE = "JC2026";
 const AUTH_STORAGE_KEY = "trip-app-authed";
 
 function PasswordGate({ children }) {
@@ -147,7 +147,7 @@ function PasswordGate({ children }) {
               color: C.ocean,
             }}
           >
-            Kaua'i Honeymoon
+            Kauai Honeymoon
           </h1>
           <p style={{ margin: "0 0 22px", fontSize: 14, color: C.inkSoft }}>
             Enter the passcode to view the trip
