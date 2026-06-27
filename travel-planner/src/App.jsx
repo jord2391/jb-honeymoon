@@ -3,57 +3,60 @@ import { useState, useEffect } from "react";
 const TABS = ["itinerary", "travel", "hotels", "dining"];
 
 const NAV_ICONS = {
-  itinerary: "🗓️",
-  travel: "⛵",
-  hotels: "🏖️",
-  dining: "🦞",
+  itinerary: "🌺",
+  travel: "✈️",
+  hotels: "🌴",
+  dining: "🍹",
 };
 
 const sampleData = {
-  tripName: "Joji & Momi's Maine Adventure",
-  dates: "July 22 – 26, 2026",
+  tripName: "Our Kaua'i Honeymoon",
+  dates: "September 11 – 18, 2026",
   itinerary: [
-    { day: 1, date: "July 22", location: "Portland", events: ["5 p.m. - Arrive and check in to hotel", "7:30ish p.m. - Dinner at Central Provisions", "Hunt & Alpine for nightcap"] },
-    { day: 2, date: "July 23", location: "Portland", events: ["Earlyish - Grab coffee & pastry at Standard Baking Co", "Stroll the Old Port & Waterfront Walk", "Lunch at Eventide Oyster Co (either eat there or to go for lunch on the boat)", "1 p.m. - Afternoon Sail with Portland Schooner", "7 p.m. - Dinner at Scales"] },
-    { day: 3, date: "July 24", location: "Portland/Ogunquit", events: ["Breakfast at The Holy Donut", "11 a.m. - Check out of hotel + grab lunch at SoPo Market", "Head to Oguinquit", "Stop 1: Portland Head Light & Fort Williams Park", "Stop 2: Two Lights State Park", "Stop 3: Footbridge Beach", "Dinner at Brix + Brine"] },
-    { day: 4, date: "July 25", location: "Kennebunkport/Wells", events: ["9 a.m. - Massage, Tree Spa at Hidden Pond (Donuts at Congdon's on the way)", "Lunch at The Clam Shack / Ice cream at Rococo", "Explore Dock Square", "Explore Perkins Cove + Dinner at M.C. Perkins Cove (7 p.m.)"] },
-    { day: 5, date: "July 26", location: "Ogunquit/Portland", events: ["Earlyish breakfast at The Egg and I", "Marginal Way Cliffwalk", "Check out of hotel (11 by a.m.)+ Head back to Portland", "Stop for lunch at Hobbs Harborside for lobster mac (Wells)", "Head back to Portland"] },
+    { day: 1, date: "Sept 11", location: "Lihue → Kapa'a", events: ["4:30 p.m. - Land at Lihue, pick up rental car", "Drive the coast to the villa, windows down", "7 p.m. - Welcome dinner at Lava Lava Beach Club, table in the sand"] },
+    { day: 2, date: "Sept 12", location: "Secret Beach", events: ["Slow morning, coffee on the lanai", "Hike down to Kauapea (Secret) Beach", "Swim the calm lagoon end, bring a blanket", "Sunset picnic on the sand"] },
+    { day: 3, date: "Sept 13", location: "Na Pali Coast", events: ["7 a.m. - Board the Na Pali catamaran (Capt Andy's)", "Snorkel a hidden cove, watch for turtles + dolphins", "Lunch onboard", "Quiet dinner in on the lanai"] },
+    { day: 4, date: "Sept 14", location: "Waimea Canyon → Po'ipu", events: ["Morning drive up to Waimea Canyon lookouts", "Shave ice on the way back down", "7 p.m. - Sunset dinner at Beach House Restaurant, table on the rail"] },
+    { day: 5, date: "Sept 15", location: "Resort, Po'ipu", events: ["No plans on purpose", "Pool, beach chairs, naps whenever they happen", "Evening couples massage + barefoot dinner"] },
+    { day: 6, date: "Sept 16", location: "Hanalei / North Shore", events: ["Coffee + banana bread in Hanalei town", "Walk Lumaha'i Beach, swim the river mouth", "7:30 p.m. - Dinner at Hukilau Lanai, torches lit"] },
+    { day: 7, date: "Sept 17", location: "Po'ipu / Koloa", events: ["One more swim at our favorite beach", "Souvenir hunting + plate lunch in Koloa", "7 p.m. - Farewell dinner at Hualani's"] },
+    { day: 8, date: "Sept 18", location: "Departure", events: ["Pack slowly, one last walk on the sand", "Check out by 11 a.m.", "Drive to Lihue Airport"] },
   ],
   travel: [
-    { type: "flight", from: "Dallas (DFW)", to: "Portland (PWM)", date: "July 22", time: "11:57 a.m. → 4:44 p.m.", duration: "3h 47m", operator: "American Airlines AA# 2353" },
-    { type: "rental car", from: "Portland (PWM)", to: "", date: "July 22", time: "5 p.m. → ", duration: "5 days", operator: "Avis" },
-    { type: "flight", from: "Portland (PWM)", to: "Dallas (DFW)", date: "July 26", time: "5:36 p.m. → 9 p.m.", duration: "4h 24m", operator: "American Airlines AA# 2353" },
+    { type: "flight", from: "Dallas (DFW)", to: "Lihue (LIH)", date: "Sept 11", time: "8:10 a.m. → 4:35 p.m.", duration: "11h 25m (1 stop)", operator: "American Airlines AA# 1721" },
+    { type: "rental car", from: "Lihue (LIH)", to: "", date: "Sept 11", time: "5:00 p.m. → ", duration: "7 days", operator: "Avis" },
+    { type: "flight", from: "Lihue (LIH)", to: "Dallas (DFW)", date: "Sept 18", time: "1:15 p.m. → 11:50 p.m.", duration: "11h 35m (1 stop)", operator: "American Airlines AA# 1722" },
   ],
   hotels: [
-    { name: "Portland Harbor Hotel", location: "Portland", checkIn: "July 22", checkOut: "July 24", nights: 2, amenities: ["Check-in: 4 p.m.", "Check-out: 11 a.m."] },
-    { name: "Gorges Grant Hotel", location: "Ogunquit", checkIn: "July 24", checkOut: "July 26", nights: 2, amenities: ["Check-in: 3 p.m.", "Check-out: 11 a.m."] },
+    { name: "Hilton Garden Inn Kauai Wailua Bay", location: "Kapa'a", checkIn: "Sept 11", checkOut: "Sept 14", nights: 3, amenities: ["Check-in: 4 p.m.", "Check-out: 11 a.m.", "Oceanview lanai"] },
+    { name: "Sheraton Kauai Resort", location: "Po'ipu", checkIn: "Sept 14", checkOut: "Sept 18", nights: 4, amenities: ["Check-in: 3 p.m.", "Check-out: 11 a.m.", "Adults' pool", "Spa on-site"] },
   ],
   dining: [
-    { id: 1, name: "Central Provisions", location: "Portland", date: "July 22", meal: "Dinner", notes: "Reservations bookable 2 weeks out via Resy", booked: false },
-    { id: 2, name: "Hunt & Alpine Club", location: "Portland", date: "July 22", meal: "Drinks", notes: "No rezy, going to risk it for a biscuit", booked: true },
-    { id: 3, name: "Eventide Oyster Co.", location: "Portland", date: "July 23", meal: "Lunch", notes: "Reservations bookable 2 weeks out via Resy", booked: false },
-    { id: 4, name: "Scales", location: "Portland", date: "July 23", meal: "Dinner", notes: "Birthday dinner, yay!", booked: true },
-    { id: 5, name: "SoPo Market", location: "Portland", date: "July 24", meal: "Lunch", notes: "Off the beaten path, on the way out of town - no rezy needed", booked: true },
-    { id: 6, name: "Brix + Brine", location: "Ogunquit", date: "July 24", meal: "Dinner", notes: "No rezzys, will have a wait but try back right by bar area to sit and eat", booked: true },
-    { id: 7, name: "The Clam Shack", location: "Kennebunk", date: "July 25", meal: "Lunch", notes: "Best lobster roll of Gabby's life - no rezy needed", booked: true },
-    { id: 8, name: "M.C. Perkins Cove", location: "Ogunquit", date: "July 25", meal: "Dinner", notes: "Best waterfront views", booked: true },
+    { id: 1, name: "Lava Lava Beach Club", location: "Kapa'a", date: "Sept 11", meal: "Dinner", notes: "Sit outside, feet in the sand — book a sunset table", booked: false },
+    { id: 2, name: "Capt Andy's Na Pali Cruise", location: "Eleele", date: "Sept 13", meal: "Full day", notes: "Morning sail, lunch onboard — take the seasickness tablet beforehand", booked: true },
+    { id: 3, name: "Beach House Restaurant", location: "Po'ipu", date: "Sept 14", meal: "Dinner", notes: "Sunset seating books out weeks ahead — request the rail", booked: false },
+    { id: 4, name: "Hukilau Lanai", location: "Kapa'a", date: "Sept 16", meal: "Dinner", notes: "Closed Sundays — courtyard torches at night", booked: true },
+    { id: 5, name: "Hualani's", location: "Lihue", date: "Sept 17", meal: "Dinner", notes: "Farewell dinner — ask for an ocean-facing table", booked: false },
+    { id: 6, name: "The Spa at Sheraton Kauai", location: "Po'ipu", date: "Sept 15", meal: "Couples massage", notes: "Booked for late afternoon, golden light after", booked: true },
   ],
 };
 
-// ---- design tokens (Maine coast summer) ----
+// ---- design tokens (Kaua'i sunset & sea) ----
 const C = {
-  sand: "#FAF6EE",
+  sand: "#FBF3E7",
   card: "#FFFFFF",
-  harbor: "#0E4D64",
-  harborDeep: "#0A3A4D",
-  coral: "#FF6B4A",
-  coralSoft: "#FFE3D9",
-  seaglass: "#2A8C82",
-  seaglassSoft: "#E0F2EE",
-  ink: "#1C2B33",
-  inkSoft: "#5B6B72",
-  rope: "#E8DEC8",
-  ropeLine: "#DCD0B4",
+  ocean: "#0F6E76",
+  oceanDeep: "#0A4F56",
+  coral: "#F4724B",
+  coralSoft: "#FDE0D2",
+  hibiscus: "#E0537A",
+  hibiscusSoft: "#FBE1E9",
+  seaglass: "#3A9C8E",
+  seaglassSoft: "#E1F2EC",
+  ink: "#2A2420",
+  inkSoft: "#7A6F63",
+  rope: "#EFE2C9",
+  ropeLine: "#E4D3AC",
   danger: "#D1483A",
   dangerSoft: "#FBE3DF",
 };
@@ -73,7 +76,7 @@ if (typeof document !== "undefined" && !document.getElementById(FONT_IMPORT_ID))
 }
 
 // ---- Password protection ----
-const SITE_PASSCODE = "MJ2026";
+const SITE_PASSCODE = "ALOHA26";
 const AUTH_STORAGE_KEY = "trip-app-authed";
 
 function PasswordGate({ children }) {
@@ -115,7 +118,7 @@ function PasswordGate({ children }) {
       <div
         style={{
           minHeight: "100vh",
-          background: C.sand,
+          background: `linear-gradient(180deg, #FDE7D6 0%, ${C.sand} 100%)`,
           fontFamily: fontBody,
           display: "flex",
           alignItems: "center",
@@ -133,20 +136,20 @@ function PasswordGate({ children }) {
             maxWidth: 360,
             width: "100%",
             textAlign: "center",
-            boxShadow: "0 8px 30px rgba(14,77,100,0.1)",
+            boxShadow: "0 8px 30px rgba(15,110,118,0.12)",
           }}
         >
-          <div style={{ fontSize: 32, marginBottom: 6 }}>⛵</div>
+          <div style={{ fontSize: 32, marginBottom: 6 }}>🌺</div>
           <h1
             style={{
               margin: "0 0 6px",
               fontFamily: fontDisplay,
               fontWeight: 700,
               fontSize: 22,
-              color: C.harbor,
+              color: C.ocean,
             }}
           >
-            Maine Adventure
+            Kaua'i Honeymoon
           </h1>
           <p style={{ margin: "0 0 22px", fontSize: 14, color: C.inkSoft }}>
             Enter the passcode to view the trip
@@ -186,7 +189,7 @@ function PasswordGate({ children }) {
               padding: "11px 0",
               borderRadius: 12,
               border: "none",
-              background: C.harbor,
+              background: C.ocean,
               color: "#fff",
               fontSize: 14,
               fontWeight: 600,
@@ -227,7 +230,7 @@ function SectionLabel({ children }) {
         fontFamily: fontDisplay,
         fontSize: 22,
         fontWeight: 600,
-        color: C.harbor,
+        color: C.ocean,
         marginBottom: "1.5rem",
         display: "flex",
         alignItems: "center",
@@ -266,14 +269,14 @@ function ItineraryTab({ data }) {
                   minWidth: 46,
                   height: 46,
                   borderRadius: "50%",
-                  background: C.harbor,
+                  background: `linear-gradient(135deg, ${C.ocean}, ${C.hibiscus})`,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <span style={{ fontSize: 9, fontFamily: fontBody, fontWeight: 600, color: C.coralSoft, letterSpacing: "0.08em", lineHeight: 1 }}>DAY</span>
+                <span style={{ fontSize: 9, fontFamily: fontBody, fontWeight: 600, color: "#FDE0D2", letterSpacing: "0.08em", lineHeight: 1 }}>DAY</span>
                 <span style={{ fontSize: 17, fontFamily: fontDisplay, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>{d.day}</span>
               </div>
               <div style={{ flex: 1 }}>
@@ -295,7 +298,7 @@ function ItineraryTab({ data }) {
               <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }}>
                 {d.events.map((e, i) => (
                   <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 9 : 0 }}>
-                    <span style={{ fontSize: 12, color: C.coral, marginTop: 2, flexShrink: 0 }}>⛱</span>
+                    <span style={{ fontSize: 12, color: C.coral, marginTop: 2, flexShrink: 0 }}>🌺</span>
                     <span style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}>{e}</span>
                   </div>
                 ))}
@@ -324,7 +327,7 @@ function TravelTab({ data }) {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-              <span style={{ fontSize: 18 }}>{t.type === "flight" ? "⛵" : "🚙"}</span>
+              <span style={{ fontSize: 18 }}>{t.type === "flight" ? "✈️" : "🚙"}</span>
               <span
                 style={{
                   fontSize: 11,
@@ -422,7 +425,7 @@ function HotelsTab({ data }) {
                     background: C.sand,
                     border: `1px solid ${C.ropeLine}`,
                     borderRadius: 20,
-                    color: C.harbor,
+                    color: C.ocean,
                   }}
                 >
                   {a}
@@ -450,7 +453,7 @@ function DiningTab({ initialData }) {
 
   return (
     <div>
-      <SectionLabel>Dining reservations</SectionLabel>
+      <SectionLabel>Dining &amp; experiences</SectionLabel>
 
       <div style={{ display: "flex", gap: 10, marginBottom: "1.5rem" }}>
         <div
@@ -509,7 +512,7 @@ function DiningTab({ initialData }) {
                       padding: "2px 8px",
                       borderRadius: 20,
                       background: C.sand,
-                      color: C.harbor,
+                      color: C.ocean,
                     }}
                   >
                     {r.meal}
@@ -559,7 +562,7 @@ function TripApp() {
 
   return (
     <div style={{ minHeight: "100vh", background: C.sand, fontFamily: fontBody, color: C.ink }}>
-      <header style={{ background: C.harbor }}>
+      <header style={{ background: `linear-gradient(135deg, ${C.oceanDeep}, ${C.ocean})` }}>
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 1.5rem" }}>
           <div style={{ padding: "1.5rem 0 1.1rem" }}>
             <p
@@ -570,15 +573,15 @@ function TripApp() {
                 fontWeight: 600,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color: C.coral,
+                color: "#F4A98A",
               }}
             >
-              ⛵ Coastal getaway
+              🌴 Two become one
             </p>
             <h1 style={{ margin: 0, fontFamily: fontDisplay, fontSize: 28, fontWeight: 700, color: "#fff" }}>
               {sampleData.tripName}
             </h1>
-            <p style={{ margin: "4px 0 1.2rem", fontSize: 14, fontFamily: fontMono, color: "#BFD8DF" }}>
+            <p style={{ margin: "4px 0 1.2rem", fontSize: 14, fontFamily: fontMono, color: "#BFE3DD" }}>
               {sampleData.dates}
             </p>
           </div>
@@ -596,7 +599,7 @@ function TripApp() {
                   fontSize: 14,
                   fontFamily: fontBody,
                   fontWeight: tab === t ? 600 : 500,
-                  color: tab === t ? "#fff" : "#9FC0C9",
+                  color: tab === t ? "#fff" : "#9FD3C9",
                   textTransform: "capitalize",
                   transition: "all 0.15s",
                   borderRadius: "8px 8px 0 0",
