@@ -3,67 +3,67 @@ import { useState, useEffect } from "react";
 const TABS = ["itinerary", "travel", "hotels", "dining"];
 
 const NAV_ICONS = {
-  itinerary: "🌺",
+  itinerary: "🗓️",
   travel: "✈️",
-  hotels: "🌴",
-  dining: "🍹",
+  hotels: "🏨",
+  dining: "🍽️",
 };
 
 const sampleData = {
   tripName: "Our Kaua'i Honeymoon",
-  dates: "September 11 – 18, 2026",
+  dates: "Sept 11 – 19, 2026",
+  days: 8,
+  places: 5,
   itinerary: [
-    { day: 1, date: "Sept 11", location: "Lihue → Kapa'a", events: ["4:30 p.m. - Land at Lihue, pick up rental car", "Drive the coast to the villa, windows down", "7 p.m. - Welcome dinner at Lava Lava Beach Club, table in the sand"] },
-    { day: 2, date: "Sept 12", location: "Secret Beach", events: ["Slow morning, coffee on the lanai", "Hike down to Kauapea (Secret) Beach", "Swim the calm lagoon end, bring a blanket", "Sunset picnic on the sand"] },
-    { day: 3, date: "Sept 13", location: "Na Pali Coast", events: ["7 a.m. - Board the Na Pali catamaran (Capt Andy's)", "Snorkel a hidden cove, watch for turtles + dolphins", "Lunch onboard", "Quiet dinner in on the lanai"] },
-    { day: 4, date: "Sept 14", location: "Waimea Canyon → Po'ipu", events: ["Morning drive up to Waimea Canyon lookouts", "Shave ice on the way back down", "7 p.m. - Sunset dinner at Beach House Restaurant, table on the rail"] },
-    { day: 5, date: "Sept 15", location: "Resort, Po'ipu", events: ["No plans on purpose", "Pool, beach chairs, naps whenever they happen", "Evening couples massage + barefoot dinner"] },
-    { day: 6, date: "Sept 16", location: "Hanalei / North Shore", events: ["Coffee + banana bread in Hanalei town", "Walk Lumaha'i Beach, swim the river mouth", "7:30 p.m. - Dinner at Hukilau Lanai, torches lit"] },
-    { day: 7, date: "Sept 17", location: "Po'ipu / Koloa", events: ["One more swim at our favorite beach", "Souvenir hunting + plate lunch in Koloa", "7 p.m. - Farewell dinner at Hualani's"] },
-    { day: 8, date: "Sept 18", location: "Departure", events: ["Pack slowly, one last walk on the sand", "Check out by 11 a.m.", "Drive to Lihue Airport"] },
+    { day: 1, date: "Sept 11", location: "DFW → Seattle → Lihue", events: ["7:15 a.m. - Depart DFW on DL804, arrive Seattle 9:37 a.m.", "4:05 p.m. - Depart Seattle on DL345, arrive Lihue 7:10 p.m.", "Pick up the Avis rental car at Lihue Airport (7 p.m. pickup)", "Drive to Princeville, check in to the condo by 10 p.m."] },
+    { day: 2, date: "Sept 12", location: "Princeville", events: ["Open day — no bookings yet, good day to explore the North Shore"] },
+    { day: 3, date: "Sept 13", location: "Lihue", events: ["Arrive by 9:30 a.m. for the Mountain Tubing Adventure (10 a.m. – 1 p.m.) with Kauai Backcountry Adventures", "Lunch included on the tour"] },
+    { day: 4, date: "Sept 14", location: "Princeville", events: ["Open day — no bookings yet"] },
+    { day: 5, date: "Sept 15", location: "Princeville", events: ["Open day — no bookings yet"] },
+    { day: 6, date: "Sept 16", location: "Lihue", events: ["Arrive by 7:30 a.m. for the Zipline Tour (8 a.m. – 11 a.m.) with Kauai Backcountry Adventures", "Lunch included on the tour"] },
+    { day: 7, date: "Sept 17", location: "Princeville", events: ["Open day — no bookings yet"] },
+    { day: 8, date: "Sept 18", location: "Departure", events: ["Check out of the condo by 10 a.m.", "Return the Avis rental car at Lihue Airport by 7 p.m.", "9:54 p.m. - Depart Lihue on DL375, arrive Seattle 6:45 a.m. (Sept 19)"] },
+    { day: 9, date: "Sept 19", location: "Seattle → DFW", events: ["9:15 a.m. - Depart Seattle on DL803, arrive DFW 3:17 p.m."] },
   ],
   travel: [
-    { type: "flight", from: "Dallas (DFW)", to: "Lihue (LIH)", date: "Sept 11", time: "8:10 a.m. → 4:35 p.m.", duration: "11h 25m (1 stop)", operator: "American Airlines AA# 1721" },
-    { type: "rental car", from: "Lihue (LIH)", to: "", date: "Sept 11", time: "5:00 p.m. → ", duration: "7 days", operator: "Avis" },
-    { type: "flight", from: "Lihue (LIH)", to: "Dallas (DFW)", date: "Sept 18", time: "1:15 p.m. → 11:50 p.m.", duration: "11h 35m (1 stop)", operator: "American Airlines AA# 1722" },
+    { type: "flight", from: "Dallas (DFW)", to: "Seattle (SEA)", date: "Sept 11", time: "7:15 a.m. → 9:37 a.m.", duration: "Delta DL804", operator: "Booking ref ESCKHN · Jordan Brauner, Chance Brauner" },
+    { type: "flight", from: "Seattle (SEA)", to: "Lihue (LIH)", date: "Sept 11", time: "4:05 p.m. → 7:10 p.m.", duration: "Delta DL345", operator: "Booking ref DGUWP9 · Jordan Brauner, Chance Brauner" },
+    { type: "rental car", from: "Lihue (LIH)", to: "", date: "Sept 11 – 18", time: "7:00 p.m. pickup → 7:00 p.m. return", duration: "7 days · Mazda CX-50 or similar, automatic, unlimited mileage", operator: "Avis · Reservation #18315319US1 · $324.41 total" },
+    { type: "flight", from: "Lihue (LIH)", to: "Seattle (SEA)", date: "Sept 18", time: "9:54 p.m. → 6:45 a.m. (+1)", duration: "Delta DL375", operator: "Booking ref DGUWP9 · Jordan Brauner, Chance Brauner" },
+    { type: "flight", from: "Seattle (SEA)", to: "Dallas (DFW)", date: "Sept 19", time: "9:15 a.m. → 3:17 p.m.", duration: "Delta DL803", operator: "Booking ref ESCKHN · Jordan Brauner, Chance Brauner" },
   ],
   hotels: [
-    { name: "Hilton Garden Inn Kauai Wailua Bay", location: "Kapa'a", checkIn: "Sept 11", checkOut: "Sept 14", nights: 3, amenities: ["Check-in: 4 p.m.", "Check-out: 11 a.m.", "Oceanview lanai"] },
-    { name: "Sheraton Kauai Resort", location: "Po'ipu", checkIn: "Sept 14", checkOut: "Sept 18", nights: 4, amenities: ["Check-in: 3 p.m.", "Check-out: 11 a.m.", "Adults' pool", "Spa on-site"] },
+    { name: "Kauai Kailani 2 Bedroom Condo (KK116)", location: "Princeville", checkIn: "Sept 11", checkOut: "Sept 18", nights: 7, rating: null, amenities: ["Check-in: 3 p.m.", "Check-out: 10 a.m.", "Confirmation #43117", "Managed by Princeville Vacation Rentals (Kauai Real Estate Group)", "Concierge: 1-855-On-Kauai / fun@kauaiva.com"] },
   ],
   dining: [
-    { id: 1, name: "Lava Lava Beach Club", location: "Kapa'a", date: "Sept 11", meal: "Dinner", notes: "Sit outside, feet in the sand — book a sunset table", booked: false },
-    { id: 2, name: "Capt Andy's Na Pali Cruise", location: "Eleele", date: "Sept 13", meal: "Full day", notes: "Morning sail, lunch onboard — take the seasickness tablet beforehand", booked: true },
-    { id: 3, name: "Beach House Restaurant", location: "Po'ipu", date: "Sept 14", meal: "Dinner", notes: "Sunset seating books out weeks ahead — request the rail", booked: false },
-    { id: 4, name: "Hukilau Lanai", location: "Kapa'a", date: "Sept 16", meal: "Dinner", notes: "Closed Sundays — courtyard torches at night", booked: true },
-    { id: 5, name: "Hualani's", location: "Lihue", date: "Sept 17", meal: "Dinner", notes: "Farewell dinner — ask for an ocean-facing table", booked: false },
-    { id: 6, name: "The Spa at Sheraton Kauai", location: "Po'ipu", date: "Sept 15", meal: "Couples massage", notes: "Booked for late afternoon, golden light after", booked: true },
+    { id: 1, name: "Mountain Tubing Adventure", location: "Kauai Backcountry Adventures, Lihue", date: "Sept 13", meal: "10 a.m. – 1 p.m., lunch included", notes: "Booking #356687203 · 2 riders (Jordan & Chance) · arrive by 9:30 a.m.", booked: true },
+    { id: 2, name: "Zipline Tour", location: "Kauai Backcountry Adventures, Lihue", date: "Sept 16", meal: "8 a.m. – 11 a.m., lunch included", notes: "Booking #356687204 · 2 riders (Jordan & Chance) · arrive by 7:30 a.m.", booked: true },
   ],
 };
 
-// ---- design tokens (Kaua'i sunset & sea) ----
+// ---- design tokens (Wanderlog-style: clean, card-based, map-app blue) ----
 const C = {
-  sand: "#FBF3E7",
+  bg: "#F7F8FA",
   card: "#FFFFFF",
-  ocean: "#0F6E76",
-  oceanDeep: "#0A4F56",
-  coral: "#F4724B",
-  coralSoft: "#FDE0D2",
-  hibiscus: "#E0537A",
-  hibiscusSoft: "#FBE1E9",
-  seaglass: "#3A9C8E",
-  seaglassSoft: "#E1F2EC",
-  ink: "#2A2420",
-  inkSoft: "#7A6F63",
-  rope: "#EFE2C9",
-  ropeLine: "#E4D3AC",
-  danger: "#D1483A",
-  dangerSoft: "#FBE3DF",
+  border: "#E6E8EC",
+  text: "#1F2430",
+  textSoft: "#6B7280",
+  textFaint: "#9CA3AF",
+  primary: "#1A73E8",
+  primarySoft: "#E8F0FE",
+  primaryDeep: "#0F4FA3",
+  green: "#1A9E6B",
+  greenSoft: "#E5F7EE",
+  amber: "#E0922D",
+  amberSoft: "#FCF0DE",
+  red: "#D93B3B",
+  redSoft: "#FCE9E9",
+  shadow: "0 1px 2px rgba(16,24,40,0.04), 0 1px 3px rgba(16,24,40,0.06)",
+  shadowHover: "0 4px 12px rgba(16,24,40,0.08)",
 };
 
-const fontDisplay = "'Fraunces', Georgia, serif";
+const fontDisplay = "'Manrope', 'Inter', system-ui, sans-serif";
 const fontBody = "'Inter', system-ui, sans-serif";
-const fontMono = "'JetBrains Mono', monospace";
 
 const FONT_IMPORT_ID = "trip-app-fonts";
 if (typeof document !== "undefined" && !document.getElementById(FONT_IMPORT_ID)) {
@@ -71,7 +71,7 @@ if (typeof document !== "undefined" && !document.getElementById(FONT_IMPORT_ID))
   link.id = FONT_IMPORT_ID;
   link.rel = "stylesheet";
   link.href =
-    "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap";
+    "https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap";
   document.head.appendChild(link);
 }
 
@@ -118,7 +118,7 @@ function PasswordGate({ children }) {
       <div
         style={{
           minHeight: "100vh",
-          background: `linear-gradient(180deg, #FDE7D6 0%, ${C.sand} 100%)`,
+          background: C.bg,
           fontFamily: fontBody,
           display: "flex",
           alignItems: "center",
@@ -130,29 +130,44 @@ function PasswordGate({ children }) {
           onSubmit={handleSubmit}
           style={{
             background: C.card,
-            border: `1px solid ${C.rope}`,
-            borderRadius: 20,
+            border: `1px solid ${C.border}`,
+            borderRadius: 16,
             padding: "2.2rem 2rem",
             maxWidth: 360,
             width: "100%",
             textAlign: "center",
-            boxShadow: "0 8px 30px rgba(15,110,118,0.12)",
+            boxShadow: C.shadowHover,
           }}
         >
-          <div style={{ fontSize: 32, marginBottom: 6 }}>🌺</div>
+          <div
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              background: C.primarySoft,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 14px",
+              fontSize: 20,
+            }}
+          >
+            📍
+          </div>
           <h1
             style={{
               margin: "0 0 6px",
               fontFamily: fontDisplay,
-              fontWeight: 700,
-              fontSize: 22,
-              color: C.ocean,
+              fontWeight: 800,
+              fontSize: 21,
+              color: C.text,
+              letterSpacing: "-0.01em",
             }}
           >
             Kaua'i Honeymoon
           </h1>
-          <p style={{ margin: "0 0 22px", fontSize: 14, color: C.inkSoft }}>
-            Enter the passcode to view the trip
+          <p style={{ margin: "0 0 22px", fontSize: 14, color: C.textSoft }}>
+            Enter the passcode to view this trip
           </p>
           <input
             type="password"
@@ -167,18 +182,18 @@ function PasswordGate({ children }) {
               width: "100%",
               boxSizing: "border-box",
               padding: "11px 14px",
-              borderRadius: 12,
-              border: `1px solid ${error ? C.danger : C.ropeLine}`,
+              borderRadius: 10,
+              border: `1px solid ${error ? C.red : C.border}`,
               fontSize: 15,
-              fontFamily: fontMono,
+              fontFamily: fontBody,
               outline: "none",
               marginBottom: 12,
-              background: C.sand,
-              color: C.ink,
+              background: C.bg,
+              color: C.text,
             }}
           />
           {error && (
-            <p style={{ margin: "0 0 12px", fontSize: 13, color: C.danger }}>
+            <p style={{ margin: "0 0 12px", fontSize: 13, color: C.red }}>
               Incorrect passcode, try again.
             </p>
           )}
@@ -187,15 +202,14 @@ function PasswordGate({ children }) {
             style={{
               width: "100%",
               padding: "11px 0",
-              borderRadius: 12,
+              borderRadius: 10,
               border: "none",
-              background: C.ocean,
+              background: C.primary,
               color: "#fff",
               fontSize: 14,
-              fontWeight: 600,
+              fontWeight: 700,
               fontFamily: fontBody,
               cursor: "pointer",
-              letterSpacing: "0.02em",
             }}
           >
             Unlock trip
@@ -208,104 +222,162 @@ function PasswordGate({ children }) {
   return children;
 }
 
-function WaveDivider() {
+function SectionLabel({ children, count }) {
   return (
-    <svg
-      viewBox="0 0 1200 40"
-      preserveAspectRatio="none"
-      style={{ display: "block", width: "100%", height: 16 }}
-    >
-      <path
-        d="M0 20 Q 50 0 100 20 T 200 20 T 300 20 T 400 20 T 500 20 T 600 20 T 700 20 T 800 20 T 900 20 T 1000 20 T 1100 20 T 1200 20 V40 H0 Z"
-        fill={C.sand}
-      />
-    </svg>
+    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "1.1rem" }}>
+      <h2
+        style={{
+          fontFamily: fontDisplay,
+          fontSize: 19,
+          fontWeight: 800,
+          color: C.text,
+          margin: 0,
+          letterSpacing: "-0.01em",
+        }}
+      >
+        {children}
+      </h2>
+      {count != null && (
+        <span style={{ fontSize: 13, color: C.textFaint, fontFamily: fontBody }}>{count} total</span>
+      )}
+    </div>
   );
 }
 
-function SectionLabel({ children }) {
+function Pill({ children, bg, color }) {
   return (
-    <h2
+    <span
       style={{
-        fontFamily: fontDisplay,
-        fontSize: 22,
-        fontWeight: 600,
-        color: C.ocean,
-        marginBottom: "1.5rem",
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
+        fontSize: 11,
+        fontFamily: fontBody,
+        fontWeight: 700,
+        letterSpacing: "0.02em",
+        textTransform: "uppercase",
+        background: bg,
+        color: color,
+        padding: "3px 9px",
+        borderRadius: 6,
+        display: "inline-block",
       }}
     >
       {children}
-      <span style={{ flex: 1, height: 1, background: C.ropeLine, marginLeft: 4 }} />
-    </h2>
+    </span>
   );
 }
 
 function ItineraryTab({ data }) {
-  const [expanded, setExpanded] = useState(null);
+  const [expanded, setExpanded] = useState(data[0]?.day ?? null);
   return (
     <div>
-      <SectionLabel>Day-by-day plan</SectionLabel>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {data.map((d) => (
-          <div
-            key={d.day}
-            onClick={() => setExpanded(expanded === d.day ? null : d.day)}
-            style={{
-              background: C.card,
-              border: `1px solid ${C.rope}`,
-              borderRadius: 16,
-              padding: "1.1rem 1.3rem",
-              cursor: "pointer",
-              transition: "border-color 0.15s, box-shadow 0.15s",
-              boxShadow: expanded === d.day ? `0 4px 16px ${C.seaglassSoft}` : "none",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <div
-                style={{
-                  minWidth: 46,
-                  height: 46,
-                  borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${C.ocean}, ${C.hibiscus})`,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <span style={{ fontSize: 9, fontFamily: fontBody, fontWeight: 600, color: "#FDE0D2", letterSpacing: "0.08em", lineHeight: 1 }}>DAY</span>
-                <span style={{ fontSize: 17, fontFamily: fontDisplay, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>{d.day}</span>
-              </div>
-              <div style={{ flex: 1 }}>
-                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>{d.location}</p>
-                <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>{d.date} · {d.events.length} activities</p>
-              </div>
-              <span
-                style={{
-                  color: C.seaglass,
-                  fontSize: 20,
-                  transition: "transform 0.2s",
-                  transform: expanded === d.day ? "rotate(180deg)" : "rotate(0deg)",
-                }}
-              >
-                ⌄
-              </span>
-            </div>
-            {expanded === d.day && (
-              <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }}>
-                {d.events.map((e, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 9 : 0 }}>
-                    <span style={{ fontSize: 12, color: C.coral, marginTop: 2, flexShrink: 0 }}>🌺</span>
-                    <span style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}>{e}</span>
+      <SectionLabel count={data.length}>Day-by-day itinerary</SectionLabel>
+
+      <div style={{ position: "relative" }}>
+        {/* vertical route line */}
+        <div
+          style={{
+            position: "absolute",
+            left: 19,
+            top: 8,
+            bottom: 8,
+            width: 2,
+            background: `repeating-linear-gradient(to bottom, ${C.border} 0, ${C.border} 4px, transparent 4px, transparent 8px)`,
+          }}
+        />
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {data.map((d) => {
+            const isOpen = expanded === d.day;
+            return (
+              <div key={d.day} style={{ position: "relative", paddingLeft: 48 }}>
+                {/* day marker */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: 4,
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                    background: isOpen ? C.primary : "#fff",
+                    border: `2px solid ${isOpen ? C.primary : C.border}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: fontDisplay,
+                    fontWeight: 800,
+                    fontSize: 15,
+                    color: isOpen ? "#fff" : C.textSoft,
+                    zIndex: 1,
+                  }}
+                >
+                  {d.day}
+                </div>
+
+                <div
+                  onClick={() => setExpanded(isOpen ? null : d.day)}
+                  style={{
+                    background: C.card,
+                    border: `1px solid ${isOpen ? C.primary : C.border}`,
+                    borderRadius: 12,
+                    padding: "0.95rem 1.1rem",
+                    cursor: "pointer",
+                    boxShadow: isOpen ? C.shadowHover : C.shadow,
+                    transition: "border-color 0.15s, box-shadow 0.15s",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 700, fontSize: 15.5, color: C.text }}>
+                        {d.location}
+                      </p>
+                      <p style={{ margin: "2px 0 0", fontSize: 12.5, fontFamily: fontBody, color: C.textFaint }}>
+                        {d.date} · {d.events.length} stops
+                      </p>
+                    </div>
+                    <span
+                      style={{
+                        color: C.textFaint,
+                        fontSize: 16,
+                        transition: "transform 0.2s",
+                        transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                      }}
+                    >
+                      ⌄
+                    </span>
                   </div>
-                ))}
+
+                  {isOpen && (
+                    <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.border}` }}>
+                      {d.events.map((e, i) => (
+                        <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 10 : 0 }}>
+                          <span
+                            style={{
+                              width: 18,
+                              height: 18,
+                              borderRadius: "50%",
+                              background: C.primarySoft,
+                              color: C.primary,
+                              fontSize: 10,
+                              fontWeight: 700,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              flexShrink: 0,
+                              marginTop: 1,
+                              fontFamily: fontBody,
+                            }}
+                          >
+                            {i + 1}
+                          </span>
+                          <span style={{ fontSize: 13.5, fontFamily: fontBody, color: C.text, lineHeight: 1.45 }}>{e}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
-        ))}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -314,55 +386,45 @@ function ItineraryTab({ data }) {
 function TravelTab({ data }) {
   return (
     <div>
-      <SectionLabel>Flights &amp; rental car</SectionLabel>
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <SectionLabel count={data.length}>Flights &amp; rental car</SectionLabel>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {data.map((t, i) => (
           <div
             key={i}
             style={{
               background: C.card,
-              border: `1px solid ${C.rope}`,
-              borderRadius: 16,
-              padding: "1.1rem 1.3rem",
+              border: `1px solid ${C.border}`,
+              borderRadius: 12,
+              padding: "1rem 1.1rem",
+              boxShadow: C.shadow,
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-              <span style={{ fontSize: 18 }}>{t.type === "flight" ? "✈️" : "🚙"}</span>
-              <span
-                style={{
-                  fontSize: 11,
-                  fontFamily: fontBody,
-                  fontWeight: 600,
-                  letterSpacing: "0.04em",
-                  textTransform: "uppercase",
-                  background: t.type === "flight" ? C.seaglassSoft : C.coralSoft,
-                  color: t.type === "flight" ? C.seaglass : C.coral,
-                  padding: "3px 9px",
-                  borderRadius: 20,
-                }}
-              >
-                {t.type === "flight" ? "Flight" : "Rental car"}
-              </span>
-              <span style={{ fontSize: 12, fontFamily: fontMono, color: C.inkSoft, marginLeft: "auto" }}>{t.date}</span>
+              <Pill bg={t.type === "flight" ? C.primarySoft : C.greenSoft} color={t.type === "flight" ? C.primary : C.green}>
+                {t.type === "flight" ? "✈ Flight" : "🚙 Rental car"}
+              </Pill>
+              <span style={{ fontSize: 12.5, fontFamily: fontBody, color: C.textFaint, marginLeft: "auto" }}>{t.date}</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>{t.from.split(" ")[0]}</p>
-                <p style={{ margin: 0, fontSize: 12, fontFamily: fontMono, color: C.inkSoft }}>{t.time.split(" → ")[0]}</p>
+              <div style={{ textAlign: "left", minWidth: 64 }}>
+                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 800, fontSize: 16, color: C.text }}>{t.from.split(" ")[0]}</p>
+                <p style={{ margin: 0, fontSize: 12, fontFamily: fontBody, color: C.textFaint }}>{t.time.split(" → ")[0]}</p>
               </div>
               <div style={{ flex: 1, display: "flex", alignItems: "center", flexDirection: "column", gap: 3 }}>
-                <span style={{ fontSize: 11, fontFamily: fontMono, color: C.seaglass }}>{t.duration}</span>
-                <div style={{ width: "100%", height: 1, background: C.ropeLine, position: "relative" }}>
-                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.coral, position: "absolute", right: 0, top: -3 }} />
+                <span style={{ fontSize: 11, fontFamily: fontBody, color: C.textFaint }}>{t.duration}</span>
+                <div style={{ width: "100%", height: 1, background: C.border, position: "relative" }}>
+                  <span style={{ position: "absolute", left: "50%", top: -6, transform: "translateX(-50%)", fontSize: 12, color: C.primary }}>
+                    {t.type === "flight" ? "✈" : "→"}
+                  </span>
                 </div>
               </div>
-              <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>{t.to.split(" ")[0]}</p>
-                <p style={{ margin: 0, fontSize: 12, fontFamily: fontMono, color: C.inkSoft }}>{t.time.split(" → ")[1]}</p>
+              <div style={{ textAlign: "right", minWidth: 64 }}>
+                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 800, fontSize: 16, color: C.text }}>{t.to.split(" ")[0] || "—"}</p>
+                <p style={{ margin: 0, fontSize: 12, fontFamily: fontBody, color: C.textFaint }}>{t.time.split(" → ")[1] || ""}</p>
               </div>
             </div>
-            <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px dashed ${C.ropeLine}`, fontSize: 12, fontFamily: fontBody, color: C.inkSoft }}>
-              <span>{t.operator}</span>
+            <div style={{ marginTop: 12, paddingTop: 10, borderTop: `1px solid ${C.border}`, fontSize: 12.5, fontFamily: fontBody, color: C.textSoft }}>
+              {t.operator}
             </div>
           </div>
         ))}
@@ -374,47 +436,66 @@ function TravelTab({ data }) {
 function HotelsTab({ data }) {
   return (
     <div>
-      <SectionLabel>Accommodation</SectionLabel>
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <SectionLabel count={data.length}>Where you're staying</SectionLabel>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {data.map((h, i) => (
           <div
             key={i}
             style={{
               background: C.card,
-              border: `1px solid ${C.rope}`,
-              borderRadius: 16,
-              padding: "1.1rem 1.3rem",
+              border: `1px solid ${C.border}`,
+              borderRadius: 12,
+              padding: "1rem 1.1rem",
+              boxShadow: C.shadow,
             }}
           >
-            <div style={{ marginBottom: 10 }}>
-              <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 18, color: C.ink }}>{h.name}</p>
-              <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>📍 {h.location}</p>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 10 }}>
+              <div>
+                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 700, fontSize: 16, color: C.text }}>{h.name}</p>
+                <p style={{ margin: "2px 0 0", fontSize: 12.5, fontFamily: fontBody, color: C.textFaint }}>📍 {h.location}</p>
+              </div>
+              {h.rating && (
+                <span
+                  style={{
+                    flexShrink: 0,
+                    fontSize: 12.5,
+                    fontWeight: 700,
+                    fontFamily: fontBody,
+                    background: C.greenSoft,
+                    color: C.green,
+                    padding: "3px 8px",
+                    borderRadius: 6,
+                  }}
+                >
+                  ★ {h.rating}
+                </span>
+              )}
             </div>
             <div
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr 1fr",
                 gap: 8,
-                margin: "12px 0",
+                margin: "10px 0",
                 padding: "10px 0",
-                borderTop: `1px dashed ${C.ropeLine}`,
-                borderBottom: `1px dashed ${C.ropeLine}`,
+                borderTop: `1px solid ${C.border}`,
+                borderBottom: `1px solid ${C.border}`,
               }}
             >
               <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontSize: 10, fontFamily: fontBody, fontWeight: 600, letterSpacing: "0.06em", color: C.seaglass }}>CHECK-IN</p>
-                <p style={{ margin: 0, fontSize: 13, fontFamily: fontMono, color: C.ink }}>{h.checkIn}</p>
+                <p style={{ margin: 0, fontSize: 10.5, fontFamily: fontBody, fontWeight: 700, letterSpacing: "0.04em", color: C.textFaint, textTransform: "uppercase" }}>Check-in</p>
+                <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.text, fontWeight: 600 }}>{h.checkIn}</p>
               </div>
               <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontSize: 10, fontFamily: fontBody, fontWeight: 600, letterSpacing: "0.06em", color: C.seaglass }}>NIGHTS</p>
-                <p style={{ margin: 0, fontSize: 20, fontFamily: fontDisplay, fontWeight: 600, color: C.ink }}>{h.nights}</p>
+                <p style={{ margin: 0, fontSize: 10.5, fontFamily: fontBody, fontWeight: 700, letterSpacing: "0.04em", color: C.textFaint, textTransform: "uppercase" }}>Nights</p>
+                <p style={{ margin: 0, fontSize: 17, fontFamily: fontDisplay, fontWeight: 800, color: C.primary }}>{h.nights}</p>
               </div>
               <div style={{ textAlign: "center" }}>
-                <p style={{ margin: 0, fontSize: 10, fontFamily: fontBody, fontWeight: 600, letterSpacing: "0.06em", color: C.seaglass }}>CHECK-OUT</p>
-                <p style={{ margin: 0, fontSize: 13, fontFamily: fontMono, color: C.ink }}>{h.checkOut}</p>
+                <p style={{ margin: 0, fontSize: 10.5, fontFamily: fontBody, fontWeight: 700, letterSpacing: "0.04em", color: C.textFaint, textTransform: "uppercase" }}>Check-out</p>
+                <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.text, fontWeight: 600 }}>{h.checkOut}</p>
               </div>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
               {h.amenities.map((a) => (
                 <span
                   key={a}
@@ -422,10 +503,10 @@ function HotelsTab({ data }) {
                     fontSize: 12,
                     fontFamily: fontBody,
                     padding: "4px 10px",
-                    background: C.sand,
-                    border: `1px solid ${C.ropeLine}`,
+                    background: C.bg,
+                    border: `1px solid ${C.border}`,
                     borderRadius: 20,
-                    color: C.ocean,
+                    color: C.textSoft,
                   }}
                 >
                   {a}
@@ -453,76 +534,60 @@ function DiningTab({ initialData }) {
 
   return (
     <div>
-      <SectionLabel>Dining &amp; experiences</SectionLabel>
+      <SectionLabel count={restaurants.length}>Dining &amp; experiences</SectionLabel>
 
-      <div style={{ display: "flex", gap: 10, marginBottom: "1.5rem" }}>
+      <div style={{ display: "flex", gap: 8, marginBottom: "1.2rem" }}>
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: 6,
-            background: C.seaglassSoft,
-            border: `1px solid ${C.seaglass}33`,
-            borderRadius: 20,
-            padding: "6px 12px",
+            background: C.greenSoft,
+            borderRadius: 8,
+            padding: "6px 11px",
           }}
         >
-          <span style={{ width: 8, height: 8, borderRadius: "50%", background: C.seaglass, display: "inline-block" }} />
-          <span style={{ fontSize: 13, fontFamily: fontBody, color: C.seaglass, fontWeight: 600 }}>{booked} Booked</span>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.green, display: "inline-block" }} />
+          <span style={{ fontSize: 12.5, fontFamily: fontBody, color: C.green, fontWeight: 700 }}>{booked} Booked</span>
         </div>
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: 6,
-            background: C.coralSoft,
-            border: `1px solid ${C.coral}33`,
-            borderRadius: 20,
-            padding: "6px 12px",
+            background: C.amberSoft,
+            borderRadius: 8,
+            padding: "6px 11px",
           }}
         >
-          <span style={{ width: 8, height: 8, borderRadius: "50%", background: C.coral, display: "inline-block" }} />
-          <span style={{ fontSize: 13, fontFamily: fontBody, color: C.coral, fontWeight: 600 }}>{needToBook} Need to book</span>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.amber, display: "inline-block" }} />
+          <span style={{ fontSize: 12.5, fontFamily: fontBody, color: C.amber, fontWeight: 700 }}>{needToBook} Need to book</span>
         </div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {restaurants.map((r) => (
           <div
             key={r.id}
             style={{
               background: C.card,
-              border: `1px solid ${r.booked ? `${C.seaglass}55` : `${C.coral}55`}`,
-              borderRadius: 16,
-              padding: "1.1rem 1.3rem",
-              transition: "border-color 0.2s",
+              border: `1px solid ${C.border}`,
+              borderRadius: 12,
+              padding: "1rem 1.1rem",
+              boxShadow: C.shadow,
             }}
           >
             <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-                  <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 16, color: C.ink }}>{r.name}</p>
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontFamily: fontBody,
-                      fontWeight: 600,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                      padding: "2px 8px",
-                      borderRadius: 20,
-                      background: C.sand,
-                      color: C.ocean,
-                    }}
-                  >
-                    {r.meal}
-                  </span>
+                  <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 700, fontSize: 15, color: C.text }}>{r.name}</p>
+                  <Pill bg={C.bg} color={C.textSoft}>{r.meal}</Pill>
                 </div>
-                <p style={{ margin: "0 0 4px", fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>
+                <p style={{ margin: "0 0 4px", fontSize: 12.5, fontFamily: fontBody, color: C.textFaint }}>
                   📍 {r.location} · {r.date}
                 </p>
                 {r.notes && (
-                  <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft, fontStyle: "italic" }}>
+                  <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.textSoft }}>
                     {r.notes}
                   </p>
                 )}
@@ -532,22 +597,20 @@ function DiningTab({ initialData }) {
                 onClick={() => toggleBooked(r.id)}
                 style={{
                   flexShrink: 0,
-                  padding: "7px 16px",
-                  borderRadius: 20,
-                  border: "none",
+                  padding: "7px 14px",
+                  borderRadius: 8,
+                  border: `1px solid ${r.booked ? C.green : C.amber}`,
                   cursor: "pointer",
                   fontSize: 12,
                   fontFamily: fontBody,
                   fontWeight: 700,
-                  letterSpacing: "0.05em",
-                  textTransform: "uppercase",
-                  transition: "background 0.2s, color 0.2s, transform 0.1s",
-                  background: r.booked ? C.seaglass : C.coral,
-                  color: "#ffffff",
-                  minWidth: 116,
+                  transition: "background 0.15s",
+                  background: r.booked ? C.greenSoft : C.amberSoft,
+                  color: r.booked ? C.green : C.amber,
+                  minWidth: 108,
                 }}
               >
-                {r.booked ? "✓ Booked" : "Need to Book"}
+                {r.booked ? "✓ Booked" : "Need to book"}
               </button>
             </div>
           </div>
@@ -561,48 +624,64 @@ function TripApp() {
   const [tab, setTab] = useState("itinerary");
 
   return (
-    <div style={{ minHeight: "100vh", background: C.sand, fontFamily: fontBody, color: C.ink }}>
-      <header style={{ background: `linear-gradient(135deg, ${C.oceanDeep}, ${C.ocean})` }}>
+    <div style={{ minHeight: "100vh", background: C.bg, fontFamily: fontBody, color: C.text }}>
+      <header style={{ background: C.card, borderBottom: `1px solid ${C.border}`, position: "sticky", top: 0, zIndex: 10 }}>
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 1.5rem" }}>
-          <div style={{ padding: "1.5rem 0 1.1rem" }}>
-            <p
+          <div style={{ padding: "1.4rem 0 1rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+            <div>
+              <p
+                style={{
+                  margin: "0 0 4px",
+                  fontSize: 11.5,
+                  fontFamily: fontBody,
+                  fontWeight: 700,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  color: C.primary,
+                }}
+              >
+                Trip plan
+              </p>
+              <h1 style={{ margin: 0, fontFamily: fontDisplay, fontSize: 25, fontWeight: 800, color: C.text, letterSpacing: "-0.01em" }}>
+                {sampleData.tripName}
+              </h1>
+              <p style={{ margin: "5px 0 0", fontSize: 13.5, fontFamily: fontBody, color: C.textSoft }}>
+                {sampleData.dates} · {sampleData.days} days · {sampleData.places} places
+              </p>
+            </div>
+            <div
               style={{
-                margin: "0 0 4px",
-                fontSize: 12,
-                fontFamily: fontBody,
-                fontWeight: 600,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                color: "#F4A98A",
+                width: 44,
+                height: 44,
+                borderRadius: 10,
+                background: C.primarySoft,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 20,
+                flexShrink: 0,
               }}
             >
-              🌴 Two become one
-            </p>
-            <h1 style={{ margin: 0, fontFamily: fontDisplay, fontSize: 28, fontWeight: 700, color: "#fff" }}>
-              {sampleData.tripName}
-            </h1>
-            <p style={{ margin: "4px 0 1.2rem", fontSize: 14, fontFamily: fontMono, color: "#BFE3DD" }}>
-              {sampleData.dates}
-            </p>
+              🏝️
+            </div>
           </div>
-          <nav style={{ display: "flex", gap: 6 }}>
+          <nav style={{ display: "flex", gap: 4, marginTop: 4 }}>
             {TABS.map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
                 style={{
-                  background: tab === t ? "rgba(255,255,255,0.08)" : "none",
+                  background: "none",
                   border: "none",
-                  borderBottom: tab === t ? `3px solid ${C.coral}` : "3px solid transparent",
-                  padding: "9px 16px",
+                  borderBottom: tab === t ? `2px solid ${C.primary}` : "2px solid transparent",
+                  padding: "9px 14px",
                   cursor: "pointer",
-                  fontSize: 14,
+                  fontSize: 13.5,
                   fontFamily: fontBody,
-                  fontWeight: tab === t ? 600 : 500,
-                  color: tab === t ? "#fff" : "#9FD3C9",
+                  fontWeight: tab === t ? 700 : 500,
+                  color: tab === t ? C.primary : C.textSoft,
                   textTransform: "capitalize",
                   transition: "all 0.15s",
-                  borderRadius: "8px 8px 0 0",
                 }}
               >
                 {NAV_ICONS[t]} {t}
@@ -610,9 +689,8 @@ function TripApp() {
             ))}
           </nav>
         </div>
-        <WaveDivider />
       </header>
-      <main style={{ maxWidth: 760, margin: "0 auto", padding: "1.8rem 1.5rem 3rem" }}>
+      <main style={{ maxWidth: 760, margin: "0 auto", padding: "1.6rem 1.5rem 3rem" }}>
         {tab === "itinerary" && <ItineraryTab data={sampleData.itinerary} />}
         {tab === "travel" && <TravelTab data={sampleData.travel} />}
         {tab === "hotels" && <HotelsTab data={sampleData.hotels} />}
