@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 
-const TABS = ["itinerary", "travel", "hotels", "experiences", "dining"];
+const TABS = ["itinerary", "travel", "hotel", "experiences", "dining"];
 
 const NAV_ICONS = {
   itinerary: "🌺",
   travel: "✈️",
-  hotels: "🌴",
+  hotel: "🌴",
   experiences: "🤿",
   dining: "🍹",
 };
 
 const sampleData = {
-  tripName: "Our Kauai Honeymoon",
+  tripName: "Honeymoon in Kauai",
   dates: "September 11 – 19, 2026",
   itinerary: [
     { day: 1, date: "September 11", location: "DFW → Seattle → Lihue", events: ["7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m.", "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m.", "Pick up the Avis rental car at Lihue Airport", "Drive to condo", "Dinner at XX"] },
@@ -31,8 +31,8 @@ const sampleData = {
     { type: "flight", from: "Lihue (LIH)", to: "Seattle (SEA)", date: "September 18", time: "9:54 p.m. → 6:45 a.m. (+1)", duration: "Delta #375", operator: "Booking ref: DGUWP9 · Jordan & Chance Brauner" },
     { type: "flight", from: "Seattle (SEA)", to: "Dallas (DFW)", date: "September 19", time: "9:15 a.m. → 3:17 p.m.", duration: "Delta #803", operator: "Booking ref: ESCKHN · Jordan & Chance Brauner" },
   ],
-  hotels: [
-    { name: "Kauai Kailani 2 Bedroom Condo (KK116)", location: "Kauai", checkIn: "September 11", checkOut: "September 18", nights: 7, amenities: ["Check-in: 3 p.m.", "Check-out: 10 a.m.", "Confirmation #43117", "Managed by Princeville Vacation Rentals"] },
+  hotel: [
+    { name: "Kauai Kailani 2 Bedroom Condo (KK116)", location: "Kauai", checkIn: "September 11", checkOut: "September 18", nights: 7, amenities: ["Check-in: 3 p.m.", "Check-out: 10 a.m.", "Confirmation #43117"] },
   ],
   experiences: [
     { id: 1, name: "Mountain Tubing Adventure", location: "Kauai Backcountry Adventures, Lihue", date: "September 13", meal: "10 a.m. – 1 p.m., lunch included", notes: "Booking #356687203 · 2 riders (Jordan & Chance) · arrive by 9:30 a.m.", booked: true },
@@ -373,7 +373,7 @@ function TravelTab({ data }) {
   );
 }
 
-function HotelsTab({ data }) {
+function HotelTab({ data }) {
   return (
     <div>
       <SectionLabel>Where we're staying</SectionLabel>
@@ -617,7 +617,7 @@ function TripApp() {
       <main style={{ maxWidth: 760, margin: "0 auto", padding: "1.8rem 1.5rem 3rem" }}>
         {tab === "itinerary" && <ItineraryTab data={sampleData.itinerary} />}
         {tab === "travel" && <TravelTab data={sampleData.travel} />}
-        {tab === "hotels" && <HotelsTab data={sampleData.hotels} />}
+        {tab === "hotel" && <HotelTab data={sampleData.hotel} />}
         {tab === "experiences" && <ListTab initialData={sampleData.experiences} title="Booked experiences" />}
         {tab === "dining" && <ListTab initialData={sampleData.dining} title="Dining" />}
       </main>
