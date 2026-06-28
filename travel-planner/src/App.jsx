@@ -39,7 +39,7 @@ const sampleData = {
     { id: 2, name: "Zipline Tour", location: "Kauai Backcountry Adventures, Lihue", date: "September 16", meal: "8 – 11 a.m., lunch included", notes: "Booking #356687204 · 2 riders (Jordan & Chance) · arrive by 7:30 a.m.", booked: true },
   ],
   dining: [
-    { id: 1, name: "Beach House Restaurant", location: "Po'ipu", date: "September 14", meal: "Dinner, 6:15 p.m.", notes: "Sunset seating — request the rail", booked: true },
+    { id: 1, name: "Beach House Restaurant", location: "Koloa", date: "September 14", meal: "Dinner, 6:15 p.m.", notes: "Anniversary dinner", booked: true },
   ],
 };
 
