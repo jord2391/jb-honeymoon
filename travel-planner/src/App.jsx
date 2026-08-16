@@ -9,8 +9,6 @@ const NAV_ICONS = {
 };
 
 // ---- known locations (lat/lng used for the map view & drive-time legs) ----
-// Coordinates are approximate — good enough for pins & a keyless map embed,
-// not survey-accurate. Swap in exact geocodes any time.
 const LOCATIONS = {
   condo: {
     name: "Condo — Kapa'a",
