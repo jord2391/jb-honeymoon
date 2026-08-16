@@ -26,27 +26,27 @@ const LOCATIONS = {
   },
   backcountryAdventures: {
     name: "Kauai Backcountry Adventures",
-    address: "Lihue, HI",
-    lat: 21.9975,
-    lng: -159.3667,
+    address: "3-4131 Kuhio Hwy, Lihue, HI 96766",
+    lat: 21.9950209,
+    lng: -159.3567933,
   },
   beachHouse: {
     name: "Beach House Restaurant",
     address: "5022 Lawai Rd, Koloa, HI 96756",
-    lat: 21.8836,
-    lng: -159.4614,
+    lat: 21.881207,
+    lng: -159.4780209,
   },
   makaiGolf: {
     name: "Makai Golf Club",
     address: "4080 Lei O Papa Rd, Princeville, HI 96722",
-    lat: 22.2255,
-    lng: -159.4823,
+    lat: 22.2211597,
+    lng: -159.4849663,
   },
   portAllen: {
     name: "Capt. Andy's — Port Allen",
-    address: "Port Allen, Eleele, HI 96705",
-    lat: 21.9021,
-    lng: -159.5931,
+    address: "4353 Waialo Rd #1a, Eleele, HI 96705",
+    lat: 21.9013118,
+    lng: -159.5897298,
   },
 };
 
