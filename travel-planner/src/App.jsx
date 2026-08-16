@@ -62,8 +62,7 @@ const sampleData = {
         { text: "7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m." },
         { text: "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m." },
         { text: "7:30 p.m. - Pick up the Avis rental car at LIH" },
-        { text: "8 p.m. - Drive to condo", url: "https://guide.touchstay.com/guest/bExjJnr2Le46P", linkText: "condo" },
-        { text: "Dinner at XX" },
+        { text: "8 p.m. - Stop at  Costco for dinner (open until 8:30 p.m. / Drive to condo", url: "https://guide.touchstay.com/guest/bExjJnr2Le46P", linkText: "condo" },
       ],
       // Structured stops power the drive-time legs & map view below.
       stops: [
