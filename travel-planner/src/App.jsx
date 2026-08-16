@@ -15,8 +15,8 @@ const LOCATIONS = {
   condo: {
     name: "Condo — Kapa'a",
     address: "4-856 Kuhio Hwy, Kapa'a, HI 96746",
-    lat: 22.0752,
-    lng: -159.319,
+    lat: 22.0617909,
+    lng: -159.3214865,
   },
   lihueAirport: {
     name: "Lihue Airport (LIH)",
