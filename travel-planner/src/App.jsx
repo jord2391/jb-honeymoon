@@ -18,7 +18,7 @@ const sampleData = {
     { day: 2, date: "September 12", location: "Lihue", events: ["Open day — no bookings yet, good day to explore the North Shore"] },
     { day: 3, date: "September 13", location: "Lihue", events: ["9:30 a.m. - Mountain Tubing Adventure (10 a.m. – 1 p.m.)", "Lunch included on the tour"] },
     { day: 4, date: "September 14", location: "Lihue", events: ["6:15 p.m. - Dinner at Beach House Restaurant"] },
-    { day: 5, date: "September 15", location: "Lihue", events: ["Open day — no bookings yet"] },
+    { day: 5, date: "September 15", location: "Lihue", events: ["8:15 a.m. - Tee time at Makai Golf Club"] },
     { day: 6, date: "September 16", location: "Lihue", events: ["7:30 a.m. - Zipline Tour (8 – 11 a.m.)", "Lunch included on the tour"] },
     { day: 7, date: "September 17", location: "Lihue", events: ["Open day — no bookings yet"] },
     { day: 8, date: "September 18", location: "Lihue → Seattle", events: ["10 a.m. - Check out", "7 p.m. - Rental car return", "9:54 p.m. - Depart Lihue → arrive Seattle 6:45 a.m. (Sept 19)"] },
