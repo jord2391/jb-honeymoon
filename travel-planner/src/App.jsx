@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-
 const TABS = ["itinerary", "travel", "hotel", "experiences", "dining"];
-
 const NAV_ICONS = {
   itinerary: "🌺",
   travel: "✈️",
@@ -10,19 +8,146 @@ const NAV_ICONS = {
   dining: "🍹",
 };
 
+// ---- known locations (lat/lng used for the map view & drive-time legs) ----
+// Coordinates are approximate — good enough for pins & a keyless map embed,
+// not survey-accurate. Swap in exact geocodes any time.
+const LOCATIONS = {
+  condo: {
+    name: "Condo — Kapa'a",
+    address: "4-856 Kuhio Hwy, Kapa'a, HI 96746",
+    lat: 22.0752,
+    lng: -159.319,
+  },
+  lihueAirport: {
+    name: "Lihue Airport (LIH)",
+    address: "3901 Mokulele Loop, Lihue, HI 96766",
+    lat: 21.976,
+    lng: -159.339,
+  },
+  backcountryAdventures: {
+    name: "Kauai Backcountry Adventures",
+    address: "Lihue, HI",
+    lat: 21.9975,
+    lng: -159.3667,
+  },
+  beachHouse: {
+    name: "Beach House Restaurant",
+    address: "5022 Lawai Rd, Koloa, HI 96756",
+    lat: 21.8836,
+    lng: -159.4614,
+  },
+  makaiGolf: {
+    name: "Makai Golf Club",
+    address: "4080 Lei O Papa Rd, Princeville, HI 96722",
+    lat: 22.2255,
+    lng: -159.4823,
+  },
+  portAllen: {
+    name: "Capt. Andy's — Port Allen",
+    address: "Port Allen, Eleele, HI 96705",
+    lat: 21.9021,
+    lng: -159.5931,
+  },
+};
+
 const sampleData = {
   tripName: "Honeymoon in Kauai",
   dates: "September 11 – 19, 2026",
   itinerary: [
-    { day: 1, date: "September 11", location: "DFW → Seattle → Lihue", events: ["7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m.", "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m.", "Pick up the Avis rental car at Lihue Airport", "Drive to condo", "Dinner at XX"] },
-    { day: 2, date: "September 12", location: "Lihue", events: ["Open day — no bookings yet, good day to explore the North Shore"] },
-    { day: 3, date: "September 13", location: "Lihue", events: ["9:30 a.m. - Mountain Tubing Adventure (10 a.m. – 1 p.m.)", "Lunch included on the tour"] },
-    { day: 4, date: "September 14", location: "Lihue", events: ["6:15 p.m. - Dinner at Beach House Restaurant"] },
-    { day: 5, date: "September 15", location: "Lihue", events: ["8:15 a.m. - Tee time at Makai Golf Club"] },
-    { day: 6, date: "September 16", location: "Lihue", events: ["7:30 a.m. - Zipline Tour (8 – 11 a.m.)", "Lunch included on the tour"] },
-    { day: 7, date: "September 17", location: "Lihue", events: ["1:45 p.m. - Sunset Dinner Boat Cruise"] },
-    { day: 8, date: "September 18", location: "Lihue → Seattle", events: ["10 a.m. - Check out", "7 p.m. - Rental car return", "9:54 p.m. - Depart Lihue → arrive Seattle 6:45 a.m. (Sept 19)"] },
-    { day: 9, date: "September 19", location: "Seattle → DFW", events: ["9:15 a.m. - Depart Seattle → arrive DFW 3:17 p.m."] },
+    {
+      day: 1,
+      date: "September 11",
+      location: "DFW → Seattle → Lihue",
+      events: [
+        "7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m.",
+        "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m.",
+        "Pick up the Avis rental car at Lihue Airport",
+        "Drive to condo",
+        "Dinner at XX",
+      ],
+      // Structured stops power the drive-time legs & map view below.
+      stops: [
+        { name: "Lihue Airport — rental car pickup", time: "7:10 p.m.", locationKey: "lihueAirport" },
+        { name: "Condo check-in", time: "~7:30 p.m.", locationKey: "condo", driveMinFromPrev: 15 },
+      ],
+    },
+    {
+      day: 2,
+      date: "September 12",
+      location: "Lihue",
+      events: ["Open day — no bookings yet, good day to explore the North Shore"],
+      // No fixed stops yet — the map/drive-time section is skipped for this day.
+    },
+    {
+      day: 3,
+      date: "September 13",
+      location: "Lihue",
+      events: ["9:30 a.m. - Mountain Tubing Adventure (10 a.m. – 1 p.m.)", "Lunch included on the tour"],
+      stops: [
+        { name: "Condo", time: "8:45 a.m. depart", locationKey: "condo" },
+        { name: "Kauai Backcountry Adventures — Mountain Tubing", time: "9:30 a.m. arrive", locationKey: "backcountryAdventures", driveMinFromPrev: 20 },
+      ],
+    },
+    {
+      day: 4,
+      date: "September 14",
+      location: "Lihue",
+      events: ["6:15 p.m. - Dinner at Beach House Restaurant"],
+      stops: [
+        { name: "Condo", time: "5:30 p.m. depart", locationKey: "condo" },
+        { name: "Beach House Restaurant", time: "6:15 p.m. dinner", locationKey: "beachHouse", driveMinFromPrev: 40 },
+      ],
+    },
+    {
+      day: 5,
+      date: "September 15",
+      location: "Lihue",
+      events: ["8:15 a.m. - Tee time at Makai Golf Club"],
+      stops: [
+        { name: "Condo", time: "7:45 a.m. depart", locationKey: "condo" },
+        { name: "Makai Golf Club", time: "8:15 a.m. tee time", locationKey: "makaiGolf", driveMinFromPrev: 25 },
+      ],
+    },
+    {
+      day: 6,
+      date: "September 16",
+      location: "Lihue",
+      events: ["7:30 a.m. - Zipline Tour (8 – 11 a.m.)", "Lunch included on the tour"],
+      stops: [
+        { name: "Condo", time: "7:00 a.m. depart", locationKey: "condo" },
+        { name: "Kauai Backcountry Adventures — Zipline", time: "7:30 a.m. arrive", locationKey: "backcountryAdventures", driveMinFromPrev: 20 },
+      ],
+    },
+    {
+      day: 7,
+      date: "September 17",
+      location: "Lihue",
+      events: ["1:45 p.m. - Sunset Dinner Boat Cruise"],
+      stops: [
+        { name: "Condo", time: "12:45 p.m. depart", locationKey: "condo" },
+        { name: "Capt. Andy's — Port Allen", time: "1:45 p.m. boarding", locationKey: "portAllen", driveMinFromPrev: 60 },
+      ],
+    },
+    {
+      day: 8,
+      date: "September 18",
+      location: "Lihue → Seattle",
+      events: [
+        "10 a.m. - Check out",
+        "7 p.m. - Rental car return",
+        "9:54 p.m. - Depart Lihue → arrive Seattle 6:45 a.m. (Sept 19)",
+      ],
+      stops: [
+        { name: "Condo checkout", time: "10:00 a.m.", locationKey: "condo" },
+        { name: "Lihue Airport — rental car return", time: "7:00 p.m.", locationKey: "lihueAirport", driveMinFromPrev: 20 },
+      ],
+    },
+    {
+      day: 9,
+      date: "September 19",
+      location: "Seattle → DFW",
+      events: ["9:15 a.m. - Depart Seattle → arrive DFW 3:17 p.m."],
+    },
   ],
   travel: [
     { type: "flight", from: "Dallas (DFW)", to: "Seattle (SEA)", date: "September 11", time: "7:15 a.m. → 9:37 a.m.", duration: "Delta #804", operator: "Booking ref: ESCKHN · Jordan & Chance Brauner" },
@@ -44,7 +169,6 @@ const sampleData = {
     { id: 1, name: "Beach House Restaurant", location: "Koloa", date: "September 14", meal: "Dinner, 6:15 p.m.", notes: "Anniversary dinner", booked: true },
   ],
 };
-
 // ---- design tokens (Kaua'i sunset & sea) ----
 const C = {
   sand: "#FBF3E7",
@@ -64,11 +188,9 @@ const C = {
   danger: "#D1483A",
   dangerSoft: "#FBE3DF",
 };
-
 const fontDisplay = "'Fraunces', Georgia, serif";
 const fontBody = "'Inter', system-ui, sans-serif";
 const fontMono = "'JetBrains Mono', monospace";
-
 const FONT_IMPORT_ID = "trip-app-fonts";
 if (typeof document !== "undefined" && !document.getElementById(FONT_IMPORT_ID)) {
   const link = document.createElement("link");
@@ -78,17 +200,14 @@ if (typeof document !== "undefined" && !document.getElementById(FONT_IMPORT_ID))
     "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap";
   document.head.appendChild(link);
 }
-
 // ---- Password protection ----
 const SITE_PASSCODE = "JC2026";
 const AUTH_STORAGE_KEY = "trip-app-authed";
-
 function PasswordGate({ children }) {
   const [authed, setAuthed] = useState(false);
   const [checked, setChecked] = useState(false);
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
-
   useEffect(() => {
     try {
       if (window.localStorage.getItem(AUTH_STORAGE_KEY) === "true") {
@@ -99,7 +218,6 @@ function PasswordGate({ children }) {
     }
     setChecked(true);
   }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim() === SITE_PASSCODE) {
@@ -114,9 +232,7 @@ function PasswordGate({ children }) {
       setError(true);
     }
   };
-
   if (!checked) return null;
-
   if (!authed) {
     return (
       <div
@@ -208,10 +324,8 @@ function PasswordGate({ children }) {
       </div>
     );
   }
-
   return children;
 }
-
 function WaveDivider() {
   return (
     <svg
@@ -226,7 +340,6 @@ function WaveDivider() {
     </svg>
   );
 }
-
 function SectionLabel({ children }) {
   return (
     <h2
@@ -247,74 +360,379 @@ function SectionLabel({ children }) {
   );
 }
 
-function ItineraryTab({ data }) {
-  const [expanded, setExpanded] = useState(data[0]?.day ?? null);
+// ---- drive-time / map helpers ----
+function formatDriveTime(min) {
+  if (min == null) return null;
+  if (min < 60) return `~${min} min`;
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  return `~${h}h${m ? ` ${m}m` : ""}`;
+}
+
+// Builds a keyless Google Maps embed URL (the classic "output=embed" trick —
+// no API key required, but also not officially supported/guaranteed by
+// Google). If you have a Maps API key, swap this for the official Maps
+// Embed API (`https://www.google.com/maps/embed/v1/directions?...&key=...`)
+// for a guaranteed-stable embed.
+function buildEmbedMapUrl(stops) {
+  const withLoc = (stops || []).filter((s) => LOCATIONS[s.locationKey]);
+  if (withLoc.length === 0) return null;
+  if (withLoc.length === 1) {
+    const { lat, lng, name } = LOCATIONS[withLoc[0].locationKey];
+    return `https://maps.google.com/maps?q=${lat},${lng}(${encodeURIComponent(name)})&z=12&output=embed`;
+  }
+  const [first, ...rest] = withLoc;
+  const start = LOCATIONS[first.locationKey];
+  const daddrParts = rest
+    .map((s) => `${LOCATIONS[s.locationKey].lat},${LOCATIONS[s.locationKey].lng}`)
+    .join("+to:");
+  return `https://maps.google.com/maps?saddr=${start.lat},${start.lng}&daddr=${daddrParts}&output=embed`;
+}
+
+// Real Google Maps deep link (no key needed) for accurate, live directions —
+// use this as the source of truth over the hardcoded driveMinFromPrev estimates.
+function buildDirectionsUrl(stops) {
+  const withLoc = (stops || []).filter((s) => LOCATIONS[s.locationKey]);
+  if (withLoc.length < 2) return null;
+  const [first, ...rest] = withLoc;
+  const last = rest[rest.length - 1];
+  const waypoints = rest
+    .slice(0, -1)
+    .map((s) => `${LOCATIONS[s.locationKey].lat},${LOCATIONS[s.locationKey].lng}`)
+    .join("|");
+  const origin = `${LOCATIONS[first.locationKey].lat},${LOCATIONS[first.locationKey].lng}`;
+  const destination = `${LOCATIONS[last.locationKey].lat},${LOCATIONS[last.locationKey].lng}`;
+  let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`;
+  if (waypoints) url += `&waypoints=${waypoints}`;
+  return url;
+}
+
+function totalDriveMinutes(stops) {
+  return (stops || []).reduce((sum, s) => sum + (s.driveMinFromPrev || 0), 0);
+}
+
+function DriveTimeChip({ minutes }) {
   return (
-    <div>
-      <SectionLabel>Day-by-day plan</SectionLabel>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {data.map((d) => (
-          <div
-            key={d.day}
-            onClick={() => setExpanded(expanded === d.day ? null : d.day)}
-            style={{
-              background: C.card,
-              border: `1px solid ${C.rope}`,
-              borderRadius: 16,
-              padding: "1.1rem 1.3rem",
-              cursor: "pointer",
-              transition: "border-color 0.15s, box-shadow 0.15s",
-              boxShadow: expanded === d.day ? `0 4px 16px ${C.seaglassSoft}` : "none",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <div
-                style={{
-                  minWidth: 46,
-                  height: 46,
-                  borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${C.ocean}, ${C.hibiscus})`,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <span style={{ fontSize: 9, fontFamily: fontBody, fontWeight: 600, color: "#FDE0D2", letterSpacing: "0.08em", lineHeight: 1 }}>DAY</span>
-                <span style={{ fontSize: 17, fontFamily: fontDisplay, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>{d.day}</span>
-              </div>
-              <div style={{ flex: 1 }}>
-                <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>{d.location}</p>
-                <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>{d.date} · {d.events.length} {d.events.length === 1 ? "activity" : "activities"}</p>
-              </div>
-              <span
-                style={{
-                  color: C.seaglass,
-                  fontSize: 20,
-                  transition: "transform 0.2s",
-                  transform: expanded === d.day ? "rotate(180deg)" : "rotate(0deg)",
-                }}
-              >
-                ⌄
-              </span>
+    <span
+      style={{
+        fontSize: 12,
+        fontFamily: fontMono,
+        fontWeight: 600,
+        color: C.seaglass,
+        background: C.seaglassSoft,
+        padding: "3px 10px",
+        borderRadius: 20,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 5,
+        whiteSpace: "nowrap",
+      }}
+    >
+      🚗 {formatDriveTime(minutes)} drive
+    </span>
+  );
+}
+
+function StopsWithDriveTimes({ stops }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      {stops.map((s, i) => (
+        <div key={i}>
+          {i > 0 && s.driveMinFromPrev != null && (
+            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 0 5px 6px" }}>
+              <span style={{ width: 1, height: 18, background: C.ropeLine, marginLeft: 6 }} />
+              <DriveTimeChip minutes={s.driveMinFromPrev} />
             </div>
-            {expanded === d.day && (
-              <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }}>
-                {d.events.map((e, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 9 : 0 }}>
-                    <span style={{ fontSize: 12, color: C.coral, marginTop: 2, flexShrink: 0 }}>🌺</span>
-                    <span style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}>{e}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+          )}
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+            <span
+              style={{
+                width: 13,
+                height: 13,
+                borderRadius: "50%",
+                background: i === stops.length - 1 ? C.coral : C.ocean,
+                marginTop: 3,
+                flexShrink: 0,
+                boxShadow: `0 0 0 3px ${C.card}, 0 0 0 4px ${C.ropeLine}`,
+              }}
+            />
+            <div>
+              <p style={{ margin: 0, fontSize: 14, fontFamily: fontBody, fontWeight: 600, color: C.ink }}>
+                {s.name}
+              </p>
+              {s.time && (
+                <p style={{ margin: 0, fontSize: 12, fontFamily: fontMono, color: C.inkSoft }}>{s.time}</p>
+              )}
+              {LOCATIONS[s.locationKey]?.address && (
+                <p style={{ margin: 0, fontSize: 11, fontFamily: fontBody, color: C.inkSoft }}>
+                  📍 {LOCATIONS[s.locationKey].address}
+                </p>
+              )}
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }
 
+function DayMap({ stops }) {
+  const src = buildEmbedMapUrl(stops);
+  const directionsUrl = buildDirectionsUrl(stops);
+  if (!src) return null;
+  return (
+    <div style={{ marginTop: 14 }}>
+      <div style={{ borderRadius: 14, overflow: "hidden", border: `1px solid ${C.ropeLine}` }}>
+        <iframe
+          title="Route map"
+          src={src}
+          width="100%"
+          height="220"
+          style={{ border: 0, display: "block" }}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      </div>
+      {directionsUrl && (
+        <a
+          href={directionsUrl}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            marginTop: 8,
+            fontSize: 12,
+            fontFamily: fontBody,
+            fontWeight: 600,
+            color: C.ocean,
+            textDecoration: "none",
+          }}
+        >
+          Open in Google Maps ↗
+        </a>
+      )}
+    </div>
+  );
+}
+
+function ToggleButton({ active, onClick, children }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: "7px 14px",
+        borderRadius: 20,
+        border: `1px solid ${active ? C.ocean : C.ropeLine}`,
+        background: active ? C.ocean : C.card,
+        color: active ? "#fff" : C.inkSoft,
+        fontSize: 13,
+        fontFamily: fontBody,
+        fontWeight: 600,
+        cursor: "pointer",
+        transition: "all 0.15s",
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function DayPill({ active, onClick, children }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: "6px 12px",
+        borderRadius: 20,
+        border: `1px solid ${active ? C.hibiscus : C.ropeLine}`,
+        background: active ? C.hibiscusSoft : C.card,
+        color: active ? C.hibiscus : C.inkSoft,
+        fontSize: 12,
+        fontFamily: fontMono,
+        fontWeight: 600,
+        cursor: "pointer",
+        whiteSpace: "nowrap",
+        flexShrink: 0,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function RouteCard({ day }) {
+  const totalDrive = totalDriveMinutes(day.stops);
+  return (
+    <div style={{ background: C.card, border: `1px solid ${C.rope}`, borderRadius: 16, padding: "1.2rem 1.3rem" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+          marginBottom: 16,
+          flexWrap: "wrap",
+          gap: 8,
+        }}
+      >
+        <div>
+          <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>
+            Day {day.day} · {day.location}
+          </p>
+          <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>{day.date}</p>
+        </div>
+        {totalDrive > 0 && (
+          <span
+            style={{
+              fontSize: 12,
+              fontFamily: fontMono,
+              fontWeight: 600,
+              color: C.seaglass,
+              background: C.seaglassSoft,
+              padding: "4px 10px",
+              borderRadius: 20,
+            }}
+          >
+            🚗 {formatDriveTime(totalDrive)} total driving
+          </span>
+        )}
+      </div>
+      <StopsWithDriveTimes stops={day.stops} />
+      <DayMap stops={day.stops} />
+    </div>
+  );
+}
+
+function ItineraryTab({ data }) {
+  const [expanded, setExpanded] = useState(data[0]?.day ?? null);
+  const [view, setView] = useState("list"); // "list" | "map"
+  const mappableDays = data.filter((d) => d.stops && d.stops.length > 0);
+  const [mapDay, setMapDay] = useState(mappableDays[0]?.day ?? null);
+  const activeMapDay = mappableDays.find((d) => d.day === mapDay) || mappableDays[0];
+
+  return (
+    <div>
+      <SectionLabel>Day-by-day plan</SectionLabel>
+      <div style={{ display: "flex", gap: 8, marginBottom: "1.3rem" }}>
+        <ToggleButton active={view === "list"} onClick={() => setView("list")}>
+          📋 List
+        </ToggleButton>
+        <ToggleButton active={view === "map"} onClick={() => setView("map")}>
+          🗺️ Map
+        </ToggleButton>
+      </div>
+
+      {view === "list" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {data.map((d) => {
+            const dayTotalDrive = totalDriveMinutes(d.stops);
+            return (
+              <div
+                key={d.day}
+                onClick={() => setExpanded(expanded === d.day ? null : d.day)}
+                style={{
+                  background: C.card,
+                  border: `1px solid ${C.rope}`,
+                  borderRadius: 16,
+                  padding: "1.1rem 1.3rem",
+                  cursor: "pointer",
+                  transition: "border-color 0.15s, box-shadow 0.15s",
+                  boxShadow: expanded === d.day ? `0 4px 16px ${C.seaglassSoft}` : "none",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                  <div
+                    style={{
+                      minWidth: 46,
+                      height: 46,
+                      borderRadius: "50%",
+                      background: `linear-gradient(135deg, ${C.ocean}, ${C.hibiscus})`,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ fontSize: 9, fontFamily: fontBody, fontWeight: 600, color: "#FDE0D2", letterSpacing: "0.08em", lineHeight: 1 }}>DAY</span>
+                    <span style={{ fontSize: 17, fontFamily: fontDisplay, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>{d.day}</span>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ margin: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 17, color: C.ink }}>{d.location}</p>
+                    <p style={{ margin: 0, fontSize: 13, fontFamily: fontBody, color: C.inkSoft }}>
+                      {d.date} · {d.events.length} {d.events.length === 1 ? "activity" : "activities"}
+                      {dayTotalDrive > 0 ? ` · 🚗 ${formatDriveTime(dayTotalDrive)}` : ""}
+                    </p>
+                  </div>
+                  <span
+                    style={{
+                      color: C.seaglass,
+                      fontSize: 20,
+                      transition: "transform 0.2s",
+                      transform: expanded === d.day ? "rotate(180deg)" : "rotate(0deg)",
+                    }}
+                  >
+                    ⌄
+                  </span>
+                </div>
+                {expanded === d.day && (
+                  <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }}>
+                    {d.events.map((e, i) => (
+                      <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 9 : 0 }}>
+                        <span style={{ fontSize: 12, color: C.coral, marginTop: 2, flexShrink: 0 }}>🌺</span>
+                        <span style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}>{e}</span>
+                      </div>
+                    ))}
+                    {d.stops && d.stops.length > 0 && (
+                      <div style={{ marginTop: 16, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }} onClick={(ev) => ev.stopPropagation()}>
+                        <p
+                          style={{
+                            margin: "0 0 10px",
+                            fontSize: 11,
+                            fontFamily: fontBody,
+                            fontWeight: 700,
+                            letterSpacing: "0.06em",
+                            textTransform: "uppercase",
+                            color: C.seaglass,
+                          }}
+                        >
+                          Route &amp; drive times
+                        </p>
+                        <StopsWithDriveTimes stops={d.stops} />
+                        <DayMap stops={d.stops} />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {view === "map" && (
+        <div>
+          {mappableDays.length === 0 ? (
+            <p style={{ fontSize: 14, fontFamily: fontBody, color: C.inkSoft }}>
+              No fixed stops yet to map — add some bookings and they'll show up here.
+            </p>
+          ) : (
+            <>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+                {mappableDays.map((d) => (
+                  <DayPill key={d.day} active={activeMapDay && d.day === activeMapDay.day} onClick={() => setMapDay(d.day)}>
+                    Day {d.day} · {d.date.replace("September ", "Sep ")}
+                  </DayPill>
+                ))}
+              </div>
+              {activeMapDay && <RouteCard day={activeMapDay} />}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 function TravelTab({ data }) {
   return (
     <div>
@@ -374,7 +792,6 @@ function TravelTab({ data }) {
     </div>
   );
 }
-
 function HotelTab({ data }) {
   return (
     <div>
@@ -442,23 +859,18 @@ function HotelTab({ data }) {
     </div>
   );
 }
-
 function ListTab({ initialData, title }) {
   const [restaurants, setRestaurants] = useState(initialData);
-
   const toggleBooked = (id) => {
     setRestaurants((prev) =>
       prev.map((r) => (r.id === id ? { ...r, booked: !r.booked } : r))
     );
   };
-
   const booked = restaurants.filter((r) => r.booked).length;
   const needToBook = restaurants.filter((r) => !r.booked).length;
-
   return (
     <div>
       <SectionLabel>{title}</SectionLabel>
-
       <div style={{ display: "flex", gap: 10, marginBottom: "1.5rem" }}>
         <div
           style={{
@@ -489,7 +901,6 @@ function ListTab({ initialData, title }) {
           <span style={{ fontSize: 13, fontFamily: fontBody, color: C.coral, fontWeight: 600 }}>{needToBook} Need to book</span>
         </div>
       </div>
-
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {restaurants.map((r) => (
           <div
@@ -531,7 +942,6 @@ function ListTab({ initialData, title }) {
                   </p>
                 )}
               </div>
-
               <button
                 onClick={() => toggleBooked(r.id)}
                 style={{
@@ -560,10 +970,8 @@ function ListTab({ initialData, title }) {
     </div>
   );
 }
-
 function TripApp() {
   const [tab, setTab] = useState("itinerary");
-
   return (
     <div style={{ minHeight: "100vh", background: C.sand, fontFamily: fontBody, color: C.ink }}>
       <header style={{ background: `linear-gradient(135deg, ${C.oceanDeep}, ${C.ocean})` }}>
@@ -626,7 +1034,6 @@ function TripApp() {
     </div>
   );
 }
-
 export default function App() {
   return (
     <PasswordGate>
