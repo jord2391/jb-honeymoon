@@ -14,10 +14,9 @@ const NAV_ICONS = {
 const LOCATIONS = {
   condo: {
     name: "Condo — Kapa'a",
-    address: "4-856 Kuhio Hwy #116b, Kapaʻa, HI 96746",
-    lat: 22.0617909,
-    lng: -159.3214865,
-     url: "https://guide.touchstay.com/guest/bExjJnr2Le46P"
+    address: "4-856 Kuhio Hwy, Kapa'a, HI 96746",
+    lat: 22.0752,
+    lng: -159.319,
   },
   lihueAirport: {
     name: "Lihue Airport (LIH)",
@@ -66,7 +65,7 @@ const sampleData = {
       events: [
         { text: "7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m." },
         { text: "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m." },
-        { text: "Pick up the Avis rental car at Lihue Airport", url: "https://www.avis.com/" },
+        { text: "Pick up the Avis rental car at Lihue Airport", url: "https://www.avis.com/", linkText: "Avis rental car" },
         { text: "Drive to condo" },
         { text: "Dinner at XX" },
       ],
@@ -88,7 +87,7 @@ const sampleData = {
       date: "September 13",
       location: "Lihue",
       events: [
-        { text: "9:30 a.m. - Mountain Tubing Adventure (10 a.m. – 1 p.m.)", url: "https://kauaibackcountry.com/tubing/" },
+        { text: "9:30 a.m. - Mountain Tubing Adventure (10 a.m. – 1 p.m.)", url: "https://kauaibackcountry.com/tubing/", linkText: "Mountain Tubing Adventure" },
         { text: "Lunch included on the tour" },
       ],
       stops: [
@@ -100,7 +99,7 @@ const sampleData = {
       day: 4,
       date: "September 14",
       location: "Lihue",
-      events: [{ text: "6:15 p.m. - Dinner at Beach House Restaurant", url: "https://www.the-beach-house.com/" }],
+      events: [{ text: "6:15 p.m. - Dinner at Beach House Restaurant", url: "https://www.the-beach-house.com/", linkText: "Beach House Restaurant" }],
       stops: [
         { name: "Condo", time: "5:30 p.m. depart", locationKey: "condo" },
         { name: "Beach House Restaurant", time: "6:15 p.m. dinner", locationKey: "beachHouse", driveMinFromPrev: 40 },
@@ -110,7 +109,7 @@ const sampleData = {
       day: 5,
       date: "September 15",
       location: "Lihue",
-      events: [{ text: "8:15 a.m. - Tee time at Makai Golf Club", url: "https://www.makaigolf.com/" }],
+      events: [{ text: "8:15 a.m. - Tee time at Makai Golf Club", url: "https://www.makaigolf.com/", linkText: "Makai Golf Club" }],
       stops: [
         { name: "Condo", time: "7:45 a.m. depart", locationKey: "condo" },
         { name: "Makai Golf Club", time: "8:15 a.m. tee time", locationKey: "makaiGolf", driveMinFromPrev: 25 },
@@ -121,7 +120,7 @@ const sampleData = {
       date: "September 16",
       location: "Lihue",
       events: [
-        { text: "7:30 a.m. - Zipline Tour (8 – 11 a.m.)", url: "https://kauaibackcountry.com/zipline/" },
+        { text: "7:30 a.m. - Zipline Tour (8 – 11 a.m.)", url: "https://kauaibackcountry.com/zipline/", linkText: "Zipline Tour" },
         { text: "Lunch included on the tour" },
       ],
       stops: [
@@ -133,7 +132,7 @@ const sampleData = {
       day: 7,
       date: "September 17",
       location: "Lihue",
-      events: [{ text: "1:45 p.m. - Sunset Dinner Boat Cruise", url: "https://www.napali.com/star/dinner/" }],
+      events: [{ text: "1:45 p.m. - Sunset Dinner Boat Cruise", url: "https://www.napali.com/star/dinner/", linkText: "Sunset Dinner Boat Cruise" }],
       stops: [
         { name: "Condo", time: "12:45 p.m. depart", locationKey: "condo" },
         { name: "Capt. Andy's — Port Allen", time: "1:45 p.m. boarding", locationKey: "portAllen", driveMinFromPrev: 60 },
@@ -145,7 +144,7 @@ const sampleData = {
       location: "Lihue → Seattle",
       events: [
         { text: "10 a.m. - Check out" },
-        { text: "7 p.m. - Rental car return", url: "https://www.avis.com/" },
+        { text: "7 p.m. - Rental car return", url: "https://www.avis.com/", linkText: "Rental car return" },
         { text: "9:54 p.m. - Depart Lihue → arrive Seattle 6:45 a.m. (Sept 19)" },
       ],
       stops: [
@@ -423,6 +422,7 @@ function totalDriveMinutes(stops) {
 }
 
 // Renders children as an external link when a url is supplied, plain text otherwise.
+// Used where the whole label (e.g. a stop/venue name) should be clickable.
 function LinkableText({ url, style, children }) {
   if (!url) return <span style={style}>{children}</span>;
   return (
@@ -442,6 +442,40 @@ function LinkableText({ url, style, children }) {
       {children}
       <span style={{ fontSize: "0.85em", marginLeft: 4 }}>↗</span>
     </a>
+  );
+}
+
+// Renders a full sentence, but only turns the `linkText` substring within it
+// into a hyperlink — the rest of the sentence stays plain text. Falls back
+// to plain text if there's no url, no linkText, or linkText isn't found
+// verbatim inside text.
+function TextWithLink({ text, linkText, url, style }) {
+  if (!url || !linkText || !text.includes(linkText)) {
+    return <span style={style}>{text}</span>;
+  }
+  const idx = text.indexOf(linkText);
+  const before = text.slice(0, idx);
+  const after = text.slice(idx + linkText.length);
+  return (
+    <span style={style}>
+      {before}
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          color: C.ocean,
+          textDecoration: "underline",
+          textDecorationColor: `${C.ocean}55`,
+          textUnderlineOffset: 3,
+        }}
+      >
+        {linkText}
+        <span style={{ fontSize: "0.85em", marginLeft: 3 }}>↗</span>
+      </a>
+      {after}
+    </span>
   );
 }
 
@@ -717,9 +751,12 @@ function ItineraryTab({ data }) {
                     {d.events.map((e, i) => (
                       <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 9 : 0 }}>
                         <span style={{ fontSize: 12, color: C.coral, marginTop: 2, flexShrink: 0 }}>🌺</span>
-                        <LinkableText url={e.url} style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}>
-                          {e.text}
-                        </LinkableText>
+                        <TextWithLink
+                          text={e.text}
+                          linkText={e.linkText}
+                          url={e.url}
+                          style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}
+                        />
                       </div>
                     ))}
                     {d.stops && d.stops.length > 0 && (
