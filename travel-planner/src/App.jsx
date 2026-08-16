@@ -14,7 +14,7 @@ const NAV_ICONS = {
 const LOCATIONS = {
   condo: {
     name: "Condo — Kapa'a",
-    address: "4-856 Kuhio Hwy, Kapa'a, HI 96746",
+    address: "4-856 Kuhio Hwy #116b, Kapaʻa, HI 96746",
     lat: 22.0617909,
     lng: -159.3214865,
   },
