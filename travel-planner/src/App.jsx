@@ -61,8 +61,8 @@ const sampleData = {
       events: [
         { text: "7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m." },
         { text: "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m." },
-        { text: "Pick up the Avis rental car at LIH" },
-        { text: "Drive to condo", url: "https://guide.touchstay.com/guest/bExjJnr2Le46P", linkText: "condo" },
+        { text: "7:30 p.m. - Pick up the Avis rental car at LIH" },
+        { text: "8 p.m. - Drive to condo", url: "https://guide.touchstay.com/guest/bExjJnr2Le46P", linkText: "condo" },
         { text: "Dinner at XX" },
       ],
       // Structured stops power the drive-time legs & map view below.
