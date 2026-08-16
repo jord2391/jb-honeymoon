@@ -17,6 +17,7 @@ const LOCATIONS = {
     address: "4-856 Kuhio Hwy #116b, Kapaʻa, HI 96746",
     lat: 22.0617909,
     lng: -159.3214865,
+     url: "https://guide.touchstay.com/guest/bExjJnr2Le46P"
   },
   lihueAirport: {
     name: "Lihue Airport (LIH)",
@@ -29,24 +30,28 @@ const LOCATIONS = {
     address: "Lihue, HI",
     lat: 21.9975,
     lng: -159.3667,
+    url: "https://kauaibackcountry.com/",
   },
   beachHouse: {
     name: "Beach House Restaurant",
     address: "5022 Lawai Rd, Koloa, HI 96756",
     lat: 21.8836,
     lng: -159.4614,
+    url: "https://www.the-beach-house.com/",
   },
   makaiGolf: {
     name: "Makai Golf Club",
     address: "4080 Lei O Papa Rd, Princeville, HI 96722",
     lat: 22.2255,
     lng: -159.4823,
+    url: "https://www.makaigolf.com/",
   },
   portAllen: {
     name: "Capt. Andy's — Port Allen",
     address: "Port Allen, Eleele, HI 96705",
     lat: 21.9021,
     lng: -159.5931,
+    url: "https://www.napali.com/star/dinner/",
   },
 };
 
@@ -56,14 +61,14 @@ const sampleData = {
   itinerary: [
     {
       day: 1,
-      date: "Friday, September 11",
+      date: "September 11",
       location: "DFW → Seattle → Lihue",
       events: [
-        "7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m.",
-        "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m.",
-        "Pick up the Avis rental car at Lihue Airport",
-        "Drive to condo",
-        "Dinner at XX",
+        { text: "7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m." },
+        { text: "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m." },
+        { text: "Pick up the Avis rental car at Lihue Airport", url: "https://www.avis.com/" },
+        { text: "Drive to condo" },
+        { text: "Dinner at XX" },
       ],
       // Structured stops power the drive-time legs & map view below.
       stops: [
@@ -73,26 +78,29 @@ const sampleData = {
     },
     {
       day: 2,
-      date: "Saturday, September 12",
+      date: "September 12",
       location: "Lihue",
-      events: ["Open day — no bookings yet, good day to explore the North Shore"],
+      events: [{ text: "Open day — no bookings yet, good day to explore the North Shore" }],
       // No fixed stops yet — the map/drive-time section is skipped for this day.
     },
     {
       day: 3,
-      date: "Sunday, September 13",
+      date: "September 13",
       location: "Lihue",
-      events: ["9:30 a.m. - Mountain Tubing Adventure (10 a.m. – 1 p.m.)", "Lunch included on the tour"],
+      events: [
+        { text: "9:30 a.m. - Mountain Tubing Adventure (10 a.m. – 1 p.m.)", url: "https://kauaibackcountry.com/tubing/" },
+        { text: "Lunch included on the tour" },
+      ],
       stops: [
         { name: "Condo", time: "8:45 a.m. depart", locationKey: "condo" },
-        { name: "Kauai Backcountry Adventures — Mountain Tubing", time: "9:30 a.m. arrive", locationKey: "backcountryAdventures", driveMinFromPrev: 20 },
+        { name: "Kauai Backcountry Adventures — Mountain Tubing", time: "9:30 a.m. arrive", locationKey: "backcountryAdventures", url: "https://kauaibackcountry.com/tubing/", driveMinFromPrev: 20 },
       ],
     },
     {
       day: 4,
-      date: "Monday, September 14",
+      date: "September 14",
       location: "Lihue",
-      events: ["6:15 p.m. - Dinner at Beach House Restaurant"],
+      events: [{ text: "6:15 p.m. - Dinner at Beach House Restaurant", url: "https://www.the-beach-house.com/" }],
       stops: [
         { name: "Condo", time: "5:30 p.m. depart", locationKey: "condo" },
         { name: "Beach House Restaurant", time: "6:15 p.m. dinner", locationKey: "beachHouse", driveMinFromPrev: 40 },
@@ -100,9 +108,9 @@ const sampleData = {
     },
     {
       day: 5,
-      date: "Tuesday, September 15",
+      date: "September 15",
       location: "Lihue",
-      events: ["8:15 a.m. - Tee time at Makai Golf Club"],
+      events: [{ text: "8:15 a.m. - Tee time at Makai Golf Club", url: "https://www.makaigolf.com/" }],
       stops: [
         { name: "Condo", time: "7:45 a.m. depart", locationKey: "condo" },
         { name: "Makai Golf Club", time: "8:15 a.m. tee time", locationKey: "makaiGolf", driveMinFromPrev: 25 },
@@ -110,19 +118,22 @@ const sampleData = {
     },
     {
       day: 6,
-      date: "Wednesday, September 16",
+      date: "September 16",
       location: "Lihue",
-      events: ["7:30 a.m. - Zipline Tour (8 – 11 a.m.)", "Lunch included on the tour"],
+      events: [
+        { text: "7:30 a.m. - Zipline Tour (8 – 11 a.m.)", url: "https://kauaibackcountry.com/zipline/" },
+        { text: "Lunch included on the tour" },
+      ],
       stops: [
         { name: "Condo", time: "7:00 a.m. depart", locationKey: "condo" },
-        { name: "Kauai Backcountry Adventures — Zipline", time: "7:30 a.m. arrive", locationKey: "backcountryAdventures", driveMinFromPrev: 20 },
+        { name: "Kauai Backcountry Adventures — Zipline", time: "7:30 a.m. arrive", locationKey: "backcountryAdventures", url: "https://kauaibackcountry.com/zipline/", driveMinFromPrev: 20 },
       ],
     },
     {
       day: 7,
-      date: "Thursday, September 17",
+      date: "September 17",
       location: "Lihue",
-      events: ["1:45 p.m. - Sunset Dinner Boat Cruise"],
+      events: [{ text: "1:45 p.m. - Sunset Dinner Boat Cruise", url: "https://www.napali.com/star/dinner/" }],
       stops: [
         { name: "Condo", time: "12:45 p.m. depart", locationKey: "condo" },
         { name: "Capt. Andy's — Port Allen", time: "1:45 p.m. boarding", locationKey: "portAllen", driveMinFromPrev: 60 },
@@ -130,12 +141,12 @@ const sampleData = {
     },
     {
       day: 8,
-      date: "Friday, September 18",
+      date: "September 18",
       location: "Lihue → Seattle",
       events: [
-        "10 a.m. - Check out",
-        "7 p.m. - Rental car return",
-        "9:54 p.m. - Depart Lihue → arrive Seattle 6:45 a.m. (Sept 19)",
+        { text: "10 a.m. - Check out" },
+        { text: "7 p.m. - Rental car return", url: "https://www.avis.com/" },
+        { text: "9:54 p.m. - Depart Lihue → arrive Seattle 6:45 a.m. (Sept 19)" },
       ],
       stops: [
         { name: "Condo checkout", time: "10:00 a.m.", locationKey: "condo" },
@@ -144,9 +155,9 @@ const sampleData = {
     },
     {
       day: 9,
-      date: "Saturday, September 19",
+      date: "September 19",
       location: "Seattle → DFW",
-      events: ["9:15 a.m. - Depart Seattle → arrive DFW 3:17 p.m."],
+      events: [{ text: "9:15 a.m. - Depart Seattle → arrive DFW 3:17 p.m." }],
     },
   ],
   travel: [
@@ -411,6 +422,29 @@ function totalDriveMinutes(stops) {
   return (stops || []).reduce((sum, s) => sum + (s.driveMinFromPrev || 0), 0);
 }
 
+// Renders children as an external link when a url is supplied, plain text otherwise.
+function LinkableText({ url, style, children }) {
+  if (!url) return <span style={style}>{children}</span>;
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      style={{
+        ...style,
+        color: C.ocean,
+        textDecoration: "underline",
+        textDecorationColor: `${C.ocean}55`,
+        textUnderlineOffset: 3,
+      }}
+    >
+      {children}
+      <span style={{ fontSize: "0.85em", marginLeft: 4 }}>↗</span>
+    </a>
+  );
+}
+
 function DriveTimeChip({ minutes }) {
   return (
     <span
@@ -458,7 +492,7 @@ function StopsWithDriveTimes({ stops }) {
             />
             <div>
               <p style={{ margin: 0, fontSize: 14, fontFamily: fontBody, fontWeight: 600, color: C.ink }}>
-                {s.name}
+                <LinkableText url={s.url || LOCATIONS[s.locationKey]?.url}>{s.name}</LinkableText>
               </p>
               {s.time && (
                 <p style={{ margin: 0, fontSize: 12, fontFamily: fontMono, color: C.inkSoft }}>{s.time}</p>
@@ -676,15 +710,20 @@ function ItineraryTab({ data }) {
                   </span>
                 </div>
                 {expanded === d.day && (
-                  <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }}>
+                  <div
+                    style={{ marginTop: 14, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }}
+                    onClick={(ev) => ev.stopPropagation()}
+                  >
                     {d.events.map((e, i) => (
                       <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < d.events.length - 1 ? 9 : 0 }}>
                         <span style={{ fontSize: 12, color: C.coral, marginTop: 2, flexShrink: 0 }}>🌺</span>
-                        <span style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}>{e}</span>
+                        <LinkableText url={e.url} style={{ fontSize: 14, fontFamily: fontBody, color: C.ink }}>
+                          {e.text}
+                        </LinkableText>
                       </div>
                     ))}
                     {d.stops && d.stops.length > 0 && (
-                      <div style={{ marginTop: 16, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }} onClick={(ev) => ev.stopPropagation()}>
+                      <div style={{ marginTop: 16, paddingTop: 14, borderTop: `1px dashed ${C.ropeLine}` }}>
                         <p
                           style={{
                             margin: "0 0 10px",
