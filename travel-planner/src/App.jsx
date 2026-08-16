@@ -56,7 +56,7 @@ const sampleData = {
   itinerary: [
     {
       day: 1,
-      date: "September 11",
+      date: "Friday, September 11",
       location: "DFW → Seattle → Lihue",
       events: [
         "7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m.",
@@ -73,14 +73,14 @@ const sampleData = {
     },
     {
       day: 2,
-      date: "September 12",
+      date: "Saturday, September 12",
       location: "Lihue",
       events: ["Open day — no bookings yet, good day to explore the North Shore"],
       // No fixed stops yet — the map/drive-time section is skipped for this day.
     },
     {
       day: 3,
-      date: "September 13",
+      date: "Sunday, September 13",
       location: "Lihue",
       events: ["9:30 a.m. - Mountain Tubing Adventure (10 a.m. – 1 p.m.)", "Lunch included on the tour"],
       stops: [
@@ -90,7 +90,7 @@ const sampleData = {
     },
     {
       day: 4,
-      date: "September 14",
+      date: "Monday, September 14",
       location: "Lihue",
       events: ["6:15 p.m. - Dinner at Beach House Restaurant"],
       stops: [
@@ -100,7 +100,7 @@ const sampleData = {
     },
     {
       day: 5,
-      date: "September 15",
+      date: "Tuesday, September 15",
       location: "Lihue",
       events: ["8:15 a.m. - Tee time at Makai Golf Club"],
       stops: [
@@ -110,7 +110,7 @@ const sampleData = {
     },
     {
       day: 6,
-      date: "September 16",
+      date: "Wednesday, September 16",
       location: "Lihue",
       events: ["7:30 a.m. - Zipline Tour (8 – 11 a.m.)", "Lunch included on the tour"],
       stops: [
@@ -120,7 +120,7 @@ const sampleData = {
     },
     {
       day: 7,
-      date: "September 17",
+      date: "Thursday, September 17",
       location: "Lihue",
       events: ["1:45 p.m. - Sunset Dinner Boat Cruise"],
       stops: [
@@ -130,7 +130,7 @@ const sampleData = {
     },
     {
       day: 8,
-      date: "September 18",
+      date: "Friday, September 18",
       location: "Lihue → Seattle",
       events: [
         "10 a.m. - Check out",
@@ -144,7 +144,7 @@ const sampleData = {
     },
     {
       day: 9,
-      date: "September 19",
+      date: "Saturday, September 19",
       location: "Seattle → DFW",
       events: ["9:15 a.m. - Depart Seattle → arrive DFW 3:17 p.m."],
     },
