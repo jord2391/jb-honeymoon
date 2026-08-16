@@ -104,7 +104,10 @@ const sampleData = {
       day: 5,
       date: "Tuesday, September 15",
       location: "Lihue",
-      events: [{ text: "8:15 a.m. - Tee time at Makai Golf Club", url: "https://www.makaigolf.com/", linkText: "Makai Golf Club" }],
+      events: [
+        { text: "8:15 a.m. - Tee time at Makai Golf Club", url: "https://www.makaigolf.com/", linkText: "Makai Golf Club" },
+        { text: "1 p.m. - Lunch at The Terrace", url: "https://theterracehanalei.com/lunch-menu/", linkText: "The Terrace" },
+      ],
       stops: [
         { name: "Condo", time: "7:45 a.m. depart", locationKey: "condo" },
         { name: "Makai Golf Club", time: "8:15 a.m. tee time", locationKey: "makaiGolf", driveMinFromPrev: 25 },
