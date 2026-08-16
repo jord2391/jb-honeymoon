@@ -14,9 +14,9 @@ const NAV_ICONS = {
 const LOCATIONS = {
   condo: {
     name: "Condo — Kapa'a",
-    address: "4-856 Kuhio Hwy, Kapa'a, HI 96746",
-    lat: 22.0752,
-    lng: -159.319,
+    address: "4-856 Kuhio Hwy #116b, Kapaʻa, HI 96746",
+    lat: 22.0617909,
+    lng: -159.3214865,
   },
   lihueAirport: {
     name: "Lihue Airport (LIH)",
@@ -29,28 +29,24 @@ const LOCATIONS = {
     address: "Lihue, HI",
     lat: 21.9975,
     lng: -159.3667,
-    url: "https://kauaibackcountry.com/",
   },
   beachHouse: {
     name: "Beach House Restaurant",
     address: "5022 Lawai Rd, Koloa, HI 96756",
     lat: 21.8836,
     lng: -159.4614,
-    url: "https://www.the-beach-house.com/",
   },
   makaiGolf: {
     name: "Makai Golf Club",
     address: "4080 Lei O Papa Rd, Princeville, HI 96722",
     lat: 22.2255,
     lng: -159.4823,
-    url: "https://www.makaigolf.com/",
   },
   portAllen: {
     name: "Capt. Andy's — Port Allen",
     address: "Port Allen, Eleele, HI 96705",
     lat: 21.9021,
     lng: -159.5931,
-    url: "https://www.napali.com/star/dinner/",
   },
 };
 
@@ -65,8 +61,8 @@ const sampleData = {
       events: [
         { text: "7:15 a.m. - Depart DFW → arrive Seattle 9:37 a.m." },
         { text: "4:05 p.m. - Depart Seattle → arrive Lihue 7:10 p.m." },
-        { text: "Pick up the Avis rental car at Lihue Airport", url: "https://www.avis.com/", linkText: "Avis rental car" },
-        { text: "Drive to condo" },
+        { text: "Pick up the Avis rental car at LIH" },
+        { text: "Drive to condo", url: "https://guide.touchstay.com/guest/bExjJnr2Le46P", linkText: "condo" },
         { text: "Dinner at XX" },
       ],
       // Structured stops power the drive-time legs & map view below.
@@ -92,7 +88,7 @@ const sampleData = {
       ],
       stops: [
         { name: "Condo", time: "8:45 a.m. depart", locationKey: "condo" },
-        { name: "Kauai Backcountry Adventures — Mountain Tubing", time: "9:30 a.m. arrive", locationKey: "backcountryAdventures", url: "https://kauaibackcountry.com/tubing/", driveMinFromPrev: 20 },
+        { name: "Kauai Backcountry Adventures — Mountain Tubing", time: "9:30 a.m. arrive", locationKey: "backcountryAdventures", driveMinFromPrev: 20 },
       ],
     },
     {
@@ -125,7 +121,7 @@ const sampleData = {
       ],
       stops: [
         { name: "Condo", time: "7:00 a.m. depart", locationKey: "condo" },
-        { name: "Kauai Backcountry Adventures — Zipline", time: "7:30 a.m. arrive", locationKey: "backcountryAdventures", url: "https://kauaibackcountry.com/zipline/", driveMinFromPrev: 20 },
+        { name: "Kauai Backcountry Adventures — Zipline", time: "7:30 a.m. arrive", locationKey: "backcountryAdventures", driveMinFromPrev: 20 },
       ],
     },
     {
@@ -144,7 +140,7 @@ const sampleData = {
       location: "Lihue → Seattle",
       events: [
         { text: "10 a.m. - Check out" },
-        { text: "7 p.m. - Rental car return", url: "https://www.avis.com/", linkText: "Rental car return" },
+        { text: "7 p.m. - Rental car return" },
         { text: "9:54 p.m. - Depart Lihue → arrive Seattle 6:45 a.m. (Sept 19)" },
       ],
       stops: [
