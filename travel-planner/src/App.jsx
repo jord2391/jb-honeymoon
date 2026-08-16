@@ -36,7 +36,8 @@ const sampleData = {
   ],
   experiences: [
     { id: 1, name: "Mountain Tubing Adventure", location: "Kauai Backcountry Adventures, Lihue", date: "September 13", meal: "10 a.m. – 1 p.m., lunch included", notes: "Booking #356687203 · 2 riders (Jordan & Chance) · arrive by 9:30 a.m.", booked: true },
-    { id: 2, name: "Zipline Tour", location: "Kauai Backcountry Adventures, Lihue", date: "September 16", meal: "8 – 11 a.m., lunch included", notes: "Booking #356687204 · 2 riders (Jordan & Chance) · arrive by 7:30 a.m.", booked: true },
+    { id: 2, name: "Makai Golf Club", location: "4080 Lei O Papa Rd, Kauai, Hawaii 96722", date: "September 15", meal: "8:15 a.m. tee time", notes: "Booking confirmation in email", booked: true },
+    { id: 3, name: "Zipline Tour", location: "Kauai Backcountry Adventures, Lihue", date: "September 16", meal: "8 – 11 a.m., lunch included", notes: "Booking #356687204 · 2 riders (Jordan & Chance) · arrive by 7:30 a.m.", booked: true },
   ],
   dining: [
     { id: 1, name: "Beach House Restaurant", location: "Koloa", date: "September 14", meal: "Dinner, 6:15 p.m.", notes: "Anniversary dinner", booked: true },
