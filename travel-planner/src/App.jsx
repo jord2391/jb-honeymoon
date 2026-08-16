@@ -20,7 +20,7 @@ const sampleData = {
     { day: 4, date: "September 14", location: "Lihue", events: ["6:15 p.m. - Dinner at Beach House Restaurant"] },
     { day: 5, date: "September 15", location: "Lihue", events: ["8:15 a.m. - Tee time at Makai Golf Club"] },
     { day: 6, date: "September 16", location: "Lihue", events: ["7:30 a.m. - Zipline Tour (8 – 11 a.m.)", "Lunch included on the tour"] },
-    { day: 7, date: "September 17", location: "Lihue", events: ["Open day — no bookings yet"] },
+    { day: 7, date: "September 17", location: "Lihue", events: ["1:45 p.m. - Sunset Dinner Boat Cruise"] },
     { day: 8, date: "September 18", location: "Lihue → Seattle", events: ["10 a.m. - Check out", "7 p.m. - Rental car return", "9:54 p.m. - Depart Lihue → arrive Seattle 6:45 a.m. (Sept 19)"] },
     { day: 9, date: "September 19", location: "Seattle → DFW", events: ["9:15 a.m. - Depart Seattle → arrive DFW 3:17 p.m."] },
   ],
@@ -35,9 +35,10 @@ const sampleData = {
     { name: "Kauai Kailani 2 Bedroom Condo (KK116)", location: "Kauai", checkIn: "September 11", checkOut: "September 18", nights: 7, amenities: ["Check-in: 3 p.m.", "Check-out: 10 a.m.", "Confirmation #43117"] },
   ],
   experiences: [
-    { id: 1, name: "Mountain Tubing Adventure", location: "Kauai Backcountry Adventures, Lihue", date: "September 13", meal: "10 a.m. – 1 p.m., lunch included", notes: "Booking #356687203 · 2 riders (Jordan & Chance) · arrive by 9:30 a.m.", booked: true },
+    { id: 1, name: "Mountain Tubing Adventure", location: "Kauai Backcountry Adventures, Lihue", date: "September 13", meal: "10 a.m. – 1 p.m., lunch included", notes: "Booking #356687203 · arrive by 9:30 a.m.", booked: true },
     { id: 2, name: "Makai Golf Club", location: "4080 Lei O Papa Rd, Kauai, Hawaii 96722", date: "September 15", meal: "8:15 a.m. tee time", notes: "Booking confirmation in email", booked: true },
-    { id: 3, name: "Zipline Tour", location: "Kauai Backcountry Adventures, Lihue", date: "September 16", meal: "8 – 11 a.m., lunch included", notes: "Booking #356687204 · 2 riders (Jordan & Chance) · arrive by 7:30 a.m.", booked: true },
+    { id: 3, name: "Zipline Tour", location: "Kauai Backcountry Adventures, Lihue", date: "September 16", meal: "8 – 11 a.m., lunch included", notes: "Booking #356687204 · arrive by 7:30 a.m.", booked: true },
+    { id: 4, name: "Sunset Dinner Boat Cruise", location: "Capt. Andys, Port Allen, Eleele", date: "September 17", meal: "1:45 – 7 p.m., dinner included", notes: "Booking #00359295 · no shoes allowed on board", booked: true },
   ],
   dining: [
     { id: 1, name: "Beach House Restaurant", location: "Koloa", date: "September 14", meal: "Dinner, 6:15 p.m.", notes: "Anniversary dinner", booked: true },
