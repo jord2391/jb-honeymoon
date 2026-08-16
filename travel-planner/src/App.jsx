@@ -73,7 +73,7 @@ const sampleData = {
     {
       day: 2,
       date: "Saturday, September 12",
-      location: "Kapa'a",
+      location: "Kapa'a / Waipouli",
       events: [{ text: "Open day — no bookings yet, good day to explore the North Shore" }],
       // No fixed stops yet — the map/drive-time section is skipped for this day.
     },
@@ -103,7 +103,7 @@ const sampleData = {
     {
       day: 5,
       date: "Tuesday, September 15",
-      location: "Lihue",
+      location: "Princeville / Hanalei",
       events: [
         { text: "8:15 a.m. - Tee time at Makai Golf Club", url: "https://www.makaigolf.com/", linkText: "Makai Golf Club" },
         { text: "1:30 p.m. - Lunch at The Terrace", url: "https://theterracehanalei.com/lunch-menu/", linkText: "The Terrace" },
