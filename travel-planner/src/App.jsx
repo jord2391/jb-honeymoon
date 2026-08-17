@@ -73,9 +73,9 @@ const sampleData = {
       date: "Saturday, September 12",
       location: "Kapa'a / Waipouli",
       events: [
-        { text: "Coffee at Java Kai", url: "http://orderjavakai.com/", linkText: "Java Kai" }
-        { text: "Bike The Ke Ala Hele Makalae coastal path", url: "https://www.gohawaii.com/islands/kauai/regions/east-side/ke-ala-hele-makalae", linkText: "The Ke Ala Hele Makalae" }    
-        { text: "Lydgate Beach" }
+        { text: "Coffee at Java Kai", url: "http://orderjavakai.com/", linkText: "Java Kai" },
+        { text: "Bike The Ke Ala Hele Makalae coastal path", url: "https://www.gohawaii.com/islands/kauai/regions/east-side/ke-ala-hele-makalae", linkText: "The Ke Ala Hele Makalae" },    
+        { text: "Lydgate Beach" },
       ],
     },
     {
