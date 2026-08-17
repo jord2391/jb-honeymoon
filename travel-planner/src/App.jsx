@@ -72,8 +72,11 @@ const sampleData = {
       day: 2,
       date: "Saturday, September 12",
       location: "Kapa'a / Waipouli",
-      events: [{ text: "Open day — no bookings yet, good day to explore the North Shore" }],
-      // No fixed stops yet — the map/drive-time section is skipped for this day.
+      events: [
+        { text: "Coffee at Java Kai", url: "http://orderjavakai.com/", linkText: "Java Kai" }
+        { text: "Bike The Ke Ala Hele Makalae coastal path", url: "https://www.gohawaii.com/islands/kauai/regions/east-side/ke-ala-hele-makalae", linkText: "The Ke Ala Hele Makalae" }    
+        { text: "Lydgate Beach" }
+      ],
     },
     {
       day: 3,
