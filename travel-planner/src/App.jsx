@@ -108,6 +108,7 @@ const sampleData = {
       events: [
         { text: "8:15 a.m. - Tee time at Makai Golf Club", url: "https://www.makaigolf.com/", linkText: "Makai Golf Club" },
         { text: "1:30 p.m. - Lunch at The Terrace", url: "https://theterracehanalei.com/lunch-menu/", linkText: "The Terrace" },
+        { text: "6:30 p.m. - Dinner at Welina Terrace", url: "https://www.1hotels.com/hanalei-bay/taste/welina-terrace-lounge", linkText: "Welina Terrace" },
       ],
       stops: [
         { name: "Condo", time: "7:45 a.m. depart", locationKey: "condo" },
